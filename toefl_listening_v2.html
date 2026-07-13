@@ -1,0 +1,2926 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>뉴토플 리스닝 Practice</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+:root {
+  /* 잉크 & 미스트 팔레트 — 차분하고 집중되는 학습 환경 */
+  --bg: #EDF1F2;
+  --bg2: #E2E8EA;
+  --paper: #FBFCFC;
+  --white: #FFFFFF;
+  --ink: #16292E;
+  --ink2: #3D5257;
+  --ink3: #7A8E93;
+  --border: #D5DEE0;
+  --border2: #BECBCE;
+  /* 청록(teal) — 물, 소리, 파형의 색 */
+  --accent: #0E7C7B;
+  --accent2: #14A0A0;
+  --accent-deep: #0A5E5D;
+  --accent-light: #E0F2F1;
+  --accent-mist: #EEF6F5;
+  /* 코랄 — 정답/강조의 따뜻한 대비색 */
+  --coral: #E8623D;
+  --coral-light: #FDEDE7;
+  --green: #2E7D5B;
+  --green-bg: #E9F5EF;
+  --green-border: #B4DCC8;
+  --red: #C0442E;
+  --red-bg: #FBEDE9;
+  --red-border: #F0C4B8;
+  --amber: #B87614;
+  --amber-bg: #FBF3E4;
+  --text: #16292E;
+  --text2: #3D5257;
+  --text3: #7A8E93;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(22,41,46,0.04), 0 8px 24px rgba(22,41,46,0.06);
+  --shadow-hover: 0 4px 12px rgba(14,124,123,0.12), 0 16px 40px rgba(22,41,46,0.10);
+  --shadow-lift: 0 2px 8px rgba(22,41,46,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Instrument Sans', 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ===== HOME ===== */
+#home {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(20,160,160,0.10), transparent 60%),
+    linear-gradient(180deg, var(--paper) 0%, var(--bg) 100%);
+  padding: 56px 24px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 배경 음파 라인 */
+#home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0, transparent 38px,
+    rgba(14,124,123,0.03) 38px, rgba(14,124,123,0.03) 40px
+  );
+  pointer-events: none;
+}
+
+.home-inner { max-width: 860px; width: 100%; position: relative; z-index: 1; }
+
+.logo-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 52px;
+}
+
+.logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(140deg, var(--accent2), var(--accent-deep));
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 6px 16px rgba(10,94,93,0.28);
+}
+
+.logo-label {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.home-title {
+  font-family: 'Fraunces', 'Noto Sans KR', serif;
+  font-size: clamp(38px, 6vw, 66px);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.home-title .grad {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.home-sub {
+  font-size: 17px; color: var(--text2);
+  margin-bottom: 48px; max-width: 520px;
+  line-height: 1.65;
+}
+
+/* 카테고리 탭 */
+.cat-tabs {
+  display: flex; gap: 8px; margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.cat-tab {
+  padding: 9px 20px;
+  border: 1.5px solid var(--border2);
+  border-radius: 24px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; background: var(--paper);
+  color: var(--text2); transition: all 0.18s;
+  font-family: inherit;
+}
+
+.cat-tab.active {
+  background: var(--ink); border-color: var(--ink);
+  color: var(--paper); box-shadow: 0 2px 8px rgba(22,41,46,0.2);
+}
+
+.cat-tab:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+/* 카드 그리드 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: 14px; margin-bottom: 40px;
+}
+
+.test-card {
+  background: var(--paper);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.22,1,0.36,1), box-shadow 0.2s, border-color 0.2s;
+  box-shadow: var(--shadow-lift);
+  position: relative; overflow: hidden;
+}
+
+.test-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+}
+.test-card.t1::after { background: var(--accent); }
+.test-card.t2::after { background: #2E86AB; }
+.test-card.t3::after { background: var(--green); }
+.test-card.t4::after { background: var(--amber); }
+.test-card.diag::after { background: var(--coral); }
+.test-card.actual::after { background: var(--accent-deep); }
+
+.test-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.card-eyebrow {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 8px;
+}
+
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 19px; font-weight: 600; margin-bottom: 8px;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+
+.card-desc { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.55; }
+
+.card-meta {
+  display: flex; gap: 12px;
+  font-size: 12px; color: var(--text3); font-weight: 500;
+}
+
+/* 통계 바 */
+.stats-row {
+  display: flex; gap: 0;
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-lift);
+}
+
+.stat-item {
+  flex: 1; padding: 20px 16px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 30px; font-weight: 600;
+  color: var(--accent);
+}
+.stat-label { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+/* 오답 패턴 배너 */
+.pattern-banner {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 18px 22px;
+  margin-bottom: 36px; display: none;
+  box-shadow: var(--shadow);
+}
+.pattern-banner.show { display: block; }
+.pattern-title {
+  font-size: 13px; font-weight: 700; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
+}
+.pattern-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.pattern-chip {
+  padding: 6px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  background: var(--red-bg); color: var(--red);
+  border: 1px solid var(--red-border);
+}
+.pattern-chip.ok { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+
+/* ===== STRATEGY SCREEN ===== */
+#strategy {
+  background: var(--bg);
+}
+
+.strategy-header {
+  background: var(--paper); border-bottom: 1px solid var(--border);
+  padding: 16px 28px; display: flex; align-items: center; gap: 16px;
+  position: sticky; top: 0; z-index: 100;
+}
+
+.strat-body {
+  max-width: 760px; margin: 0 auto; padding: 36px 24px;
+}
+
+.strat-hero {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  border-radius: var(--radius); padding: 32px;
+  color: white; margin-bottom: 28px;
+  box-shadow: 0 8px 24px rgba(10,94,93,0.22);
+}
+
+.strat-hero-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; opacity: 0.7; margin-bottom: 8px;
+}
+
+.strat-hero-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.strat-hero-desc { font-size: 14px; opacity: 0.85; line-height: 1.6; }
+
+.strat-section {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 24px;
+  margin-bottom: 16px; box-shadow: var(--shadow);
+}
+
+.strat-section-title {
+  font-size: 15px; font-weight: 700; color: var(--accent);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+
+.strat-point {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.strat-point:last-child { border-bottom: none; padding-bottom: 0; }
+
+.strat-num {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--accent-light); color: var(--accent);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+.strat-text { font-size: 14px; color: var(--text); line-height: 1.65; }
+.strat-text strong { color: var(--accent); }
+
+.trap-box {
+  background: var(--red-bg); border: 1px solid var(--red-border);
+  border-radius: 10px; padding: 14px 18px; margin-top: 12px;
+}
+
+.trap-title { font-size: 12px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
+.trap-item { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+.tip-box {
+  background: var(--accent-light); border: 1px solid rgba(14,124,123,0.2);
+  border-radius: 10px; padding: 14px 18px; margin-top: 12px;
+}
+.tip-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* ===== TEST HEADER ===== */
+.test-header {
+  background: var(--paper); border-bottom: 1.5px solid var(--border);
+  padding: 14px 24px; display: flex; align-items: center;
+  justify-content: space-between; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 1px 4px rgba(14,124,123,0.06);
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+.back-btn {
+  background: none; border: 1.5px solid var(--border2);
+  color: var(--text2); padding: 6px 14px; border-radius: 7px;
+  cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s;
+  font-family: inherit;
+}
+.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.header-title { font-size: 14px; font-weight: 600; color: var(--text2); }
+
+.progress-wrap { flex: 1; max-width: 280px; margin: 0 20px; }
+.progress-track { background: var(--bg2); border-radius: 4px; height: 5px; overflow: hidden; }
+.progress-fill {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  height: 100%; border-radius: 4px; transition: width 0.4s ease;
+}
+.progress-label { font-size: 11px; color: var(--text3); margin-top: 4px; text-align: right; }
+
+.timer {
+  font-size: 14px; font-weight: 700; font-family: 'Inter', monospace;
+  color: var(--accent); background: var(--accent-light);
+  padding: 6px 14px; border-radius: 7px;
+  border: 1.5px solid rgba(14,124,123,0.2);
+}
+.timer.warn { color: var(--amber); background: var(--amber-bg); border-color: rgba(184,118,20,0.25); }
+.timer.danger { color: var(--red); background: var(--red-bg); border-color: rgba(220,38,38,0.25); }
+
+/* ===== QUESTION AREA ===== */
+#test { background: var(--bg); flex: 1; }
+
+.q-wrap { max-width: 800px; margin: 0 auto; padding: 36px 24px; }
+
+.passage-card {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 24px;
+  box-shadow: var(--shadow); overflow: hidden;
+}
+
+.passage-header {
+  background: linear-gradient(140deg, var(--accent2), var(--accent-deep));
+  padding: 18px 24px; color: white;
+  display: flex; align-items: center; gap: 14px;
+}
+.passage-icon { font-size: 22px; }
+.passage-type { font-size: 11px; font-weight: 700; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; }
+.passage-title-text { font-size: 16px; font-weight: 600; font-family: 'Fraunces', serif; }
+.passage-ctx { font-size: 13px; opacity: 0.88; margin-top: 3px; }
+
+.passage-body { padding: 22px 24px; }
+.script-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 10px; }
+.script-text { font-size: 14px; color: var(--text2); line-height: 1.8; max-height: 240px; overflow-y: auto; padding: 4px; }
+.script-text::-webkit-scrollbar { width: 5px; }
+.script-text::-webkit-scrollbar-track { background: var(--bg); }
+.script-text::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+.divider { display: flex; align-items: center; gap: 12px; margin: 28px 0 22px; }
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text3); }
+
+.q-tag {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--accent-light); color: var(--accent-deep);
+  padding: 5px 13px; border-radius: 20px; margin-bottom: 12px;
+  border: 1px solid rgba(14,124,123,0.18);
+}
+
+.q-type {
+  font-size: 12px; color: var(--accent); margin-bottom: 8px;
+  font-weight: 600; letter-spacing: 0.02em;
+}
+
+.q-stem {
+  font-family: 'Fraunces', 'Noto Sans KR', serif;
+  font-size: 22px; font-weight: 500; line-height: 1.4;
+  color: var(--ink); margin-bottom: 24px;
+  letter-spacing: -0.01em;
+}
+
+.choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+.choice {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 18px;
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer;
+  transition: transform 0.12s, border-color 0.15s, background 0.15s;
+  text-align: left; width: 100%;
+  box-shadow: 0 1px 2px rgba(22,41,46,0.03);
+}
+
+.choice:hover:not(.disabled) {
+  border-color: var(--accent); background: var(--accent-mist);
+  transform: translateX(2px);
+}
+.choice.selected { border-color: var(--accent); background: var(--accent-light); }
+.choice.correct { border-color: var(--green); background: var(--green-bg); }
+.choice.wrong { border-color: var(--red); background: var(--red-bg); }
+.choice.disabled { cursor: default; }
+
+.choice-letter {
+  width: 30px; height: 30px; border-radius: 9px;
+  border: 1.5px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+  color: var(--text2); transition: all 0.15s;
+  font-family: 'Instrument Sans', sans-serif;
+}
+.choice.selected .choice-letter { border-color: var(--accent); color: var(--accent); background: rgba(14,124,123,0.1); }
+.choice.correct .choice-letter { border-color: var(--green); color: var(--green); background: rgba(22,163,74,0.1); }
+.choice.wrong .choice-letter { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.1); }
+
+.choice-text { font-size: 15px; color: var(--text); flex: 1; line-height: 1.5; }
+
+/* 피드백 */
+.feedback {
+  border-radius: var(--radius-sm); padding: 16px 18px;
+  margin-bottom: 22px; display: none;
+}
+.feedback.show { display: block; }
+.feedback.correct { background: var(--green-bg); border: 1.5px solid var(--green-border); }
+.feedback.wrong { background: var(--red-bg); border: 1.5px solid var(--red-border); }
+.feedback-head { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+.feedback.correct .feedback-head { color: var(--green); }
+.feedback.wrong .feedback-head { color: var(--red); }
+.feedback-body { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* 버튼 */
+.btn-row { display: flex; gap: 10px; justify-content: flex-end; }
+
+.btn {
+  padding: 13px 28px; border-radius: 11px; font-size: 14px;
+  font-weight: 600; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  border: none; font-family: inherit;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper); box-shadow: 0 3px 12px rgba(22,41,46,0.22);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(22,41,46,0.28); }
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-ghost {
+  background: var(--paper); color: var(--text2);
+  border: 1.5px solid var(--border2);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Task1 전용: 짧은 발화 박스 */
+.utterance-box {
+  background: var(--accent-mist);
+  border: 1.5px solid rgba(14,124,123,0.15);
+  border-radius: var(--radius); padding: 26px 24px;
+  margin-bottom: 20px; text-align: center;
+  position: relative; overflow: hidden;
+}
+/* 음파 장식 */
+.utterance-box::before {
+  content: '';
+  position: absolute; left: 0; right: 0; bottom: 0; height: 40px;
+  background-image: repeating-linear-gradient(90deg,
+    var(--accent) 0, var(--accent) 2px, transparent 2px, transparent 7px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, black);
+  mask-image: linear-gradient(180deg, transparent, black);
+  opacity: 0.12;
+}
+.utterance-icon { font-size: 30px; margin-bottom: 10px; position: relative; }
+.utterance-label { font-size: 13px; font-weight: 600; color: var(--accent-deep); margin-bottom: 6px; position: relative; }
+.utterance-note { font-size: 12px; color: var(--text3); margin-top: 4px; position: relative; }
+
+/* ===== RESULT ===== */
+#result {
+  background: var(--bg);
+  align-items: center; justify-content: center; padding: 48px 24px;
+}
+
+.result-inner { max-width: 640px; width: 100%; }
+
+.score-ring-wrap {
+  display: flex; justify-content: center; margin-bottom: 22px;
+}
+
+.score-ring { width: 156px; height: 156px; position: relative; }
+.ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--bg2); stroke-width: 9; }
+.ring-fg {
+  fill: none; stroke-width: 9; stroke-linecap: round;
+  stroke: url(#rGrad);
+  stroke-dasharray: 376; stroke-dashoffset: 376;
+  transition: stroke-dashoffset 1.3s cubic-bezier(0.22,1,0.36,1);
+}
+.ring-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); text-align: center;
+}
+.ring-score-num {
+  font-family: 'Fraunces', serif;
+  font-size: 40px; font-weight: 600; display: block;
+  color: var(--accent-deep);
+}
+.ring-denom { font-size: 14px; color: var(--text3); }
+
+.result-header { text-align: center; margin-bottom: 32px; }
+.result-title { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+.result-sub { font-size: 14px; color: var(--text2); }
+
+.result-card {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  margin-bottom: 16px; box-shadow: var(--shadow);
+}
+
+.result-card-header {
+  padding: 14px 20px; font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text2); background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.breakdown-row {
+  padding: 13px 20px; display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-type { color: var(--text2); }
+.bscore { font-weight: 700; font-size: 15px; }
+.bscore.high { color: var(--green); }
+.bscore.mid { color: var(--amber); }
+.bscore.low { color: var(--red); }
+
+/* 바 차트 */
+.bar-wrap { display: flex; align-items: center; gap: 10px; }
+.bar-track { flex: 1; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; max-width: 80px; }
+.bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.8s ease; }
+
+.review-item {
+  padding: 14px 20px; border-bottom: 1px solid var(--border);
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.review-item:last-child { border-bottom: none; }
+.review-qnum { font-size: 11px; font-weight: 700; color: var(--text3); width: 24px; flex-shrink: 0; padding-top: 3px; }
+.review-content { flex: 1; }
+.review-q { font-size: 13px; color: var(--text2); margin-bottom: 6px; line-height: 1.45; }
+.review-answers { display: flex; flex-wrap: wrap; gap: 6px; }
+.ans-tag {
+  padding: 3px 10px; border-radius: 16px;
+  font-size: 11px; font-weight: 700;
+}
+.ans-correct { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.ans-wrong { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.review-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0; margin-top: 2px;
+}
+.icon-ok { background: var(--green-bg); color: var(--green); }
+.icon-ng { background: var(--red-bg); color: var(--red); }
+
+.result-actions { display: flex; gap: 10px; }
+.result-actions .btn { flex: 1; text-align: center; }
+
+/* 모바일 */
+@media (max-width: 600px) {
+  .test-header { flex-wrap: wrap; gap: 8px; }
+  .progress-wrap { order: 3; max-width: 100%; margin: 0; }
+  .q-stem { font-size: 16px; }
+  .choice-text { font-size: 14px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .stats-row { flex-wrap: wrap; }
+  .stat-item { min-width: 50%; border-bottom: 1px solid var(--border); }
+  .result-actions { flex-direction: column; }
+}
+
+/* ===== AUDIO PLAYER ===== */
+.audio-player {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+  margin-bottom: 20px; box-shadow: var(--shadow);
+}
+
+.audio-top {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+}
+
+.audio-play-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(140deg, var(--accent2), var(--accent-deep));
+  border: none; color: white; font-size: 18px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(10,94,93,0.28);
+}
+.audio-play-btn:hover { transform: scale(1.05); }
+.audio-play-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.audio-info { flex: 1; min-width: 0; }
+.audio-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.audio-status { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+.audio-speed-group {
+  display: flex; gap: 4px; flex-shrink: 0;
+}
+.speed-btn {
+  padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--border2); background: var(--paper);
+  color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.speed-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+.audio-progress-wrap { margin-bottom: 10px; }
+.audio-progress-track {
+  height: 5px; background: var(--bg2); border-radius: 3px;
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.audio-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 3px; width: 0%; transition: width 0.1s linear;
+  pointer-events: none;
+}
+.audio-time {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--text3); margin-top: 4px;
+}
+
+.audio-controls-row {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.audio-ctrl-btn {
+  padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--border2); background: var(--paper);
+  color: var(--text2); cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.audio-ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
+.audio-ctrl-btn.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+/* 쉐도잉 모드 */
+.shadowing-panel {
+  background: var(--accent-mist); border: 1.5px solid rgba(14,124,123,0.2);
+  border-radius: 12px; padding: 16px 18px; margin-top: 10px; display: none;
+}
+.shadowing-panel.show { display: block; }
+.shadowing-title { font-size: 14px; font-weight: 700; color: var(--accent-deep); margin-bottom: 14px; }
+
+.shad-section { margin-bottom: 16px; }
+.shad-section:last-child { margin-bottom: 0; }
+.shad-section-label {
+  font-size: 11px; font-weight: 700; color: var(--ink2);
+  margin-bottom: 8px; letter-spacing: 0.02em;
+}
+
+.shadowing-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.shad-btn {
+  padding: 6px 13px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  border: 1.5px solid rgba(10,94,93,0.28); background: var(--paper);
+  color: var(--accent); cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.shad-btn:hover { background: var(--accent); color: white; }
+.loop-indicator {
+  font-size: 11px; color: var(--accent); padding: 6px 0 0;
+  display: none;
+}
+.loop-indicator.show { display: block; }
+
+/* 녹음 컨트롤 */
+.rec-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rec-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 600;
+  border: 1.5px solid var(--coral); background: var(--paper);
+  color: var(--coral); cursor: pointer; transition: all 0.18s; font-family: inherit;
+}
+.rec-btn:hover { background: var(--coral-light); }
+.rec-btn.recording { background: var(--coral); color: white; }
+.rec-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--coral); flex-shrink: 0;
+}
+.rec-btn.recording .rec-dot {
+  background: white; animation: rec-blink 1s ease-in-out infinite;
+}
+@keyframes rec-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.rec-status { font-size: 12px; color: var(--text2); }
+
+/* 비교 재생 */
+.compare-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.compare-btn {
+  flex: 1; min-width: 130px;
+  padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.18s; font-family: inherit;
+  border: 1.5px solid; text-align: center;
+}
+.compare-btn.native {
+  border-color: var(--accent); background: var(--accent-light); color: var(--accent-deep);
+}
+.compare-btn.native:hover { background: var(--accent); color: white; }
+.compare-btn.mine {
+  border-color: var(--coral); background: var(--coral-light); color: var(--coral);
+}
+.compare-btn.mine:hover { background: var(--coral); color: white; }
+.compare-hint { font-size: 11px; color: var(--text3); margin-top: 8px; text-align: center; }
+
+/* ===== 문제 가리기 UI ===== */
+.q-hidden-notice {
+  background:
+    radial-gradient(circle at 50% 0%, var(--accent-mist), transparent 70%),
+    var(--paper);
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius);
+  padding: 40px 28px;
+  text-align: center;
+  margin: 24px 0;
+}
+.q-hidden-icon {
+  font-size: 40px; margin-bottom: 14px;
+  display: inline-block;
+  animation: gentle-pulse 2.4s ease-in-out infinite;
+}
+@keyframes gentle-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+.q-hidden-title {
+  font-family: 'Fraunces', serif;
+  font-size: 21px; font-weight: 600; color: var(--ink);
+  margin-bottom: 8px;
+}
+.q-hidden-desc {
+  font-size: 14px; color: var(--text2); line-height: 1.65;
+}
+.btn-reveal { min-width: 160px; }
+
+/* 스크롤바 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink3); }
+</style>
+</head>
+<body>
+
+<!-- ======= HOME ======= -->
+<div id="home" class="screen active">
+  <div class="home-inner">
+    <div class="logo-row">
+      <div class="logo-icon">🎧</div>
+      <div class="logo-label">Hackers Updated TOEFL Listening</div>
+    </div>
+
+    <h1 class="home-title">리스닝 실력,<br><span class="grad">지금 확인하세요</span></h1>
+    <p class="home-sub">교재 기반 Task별 전략 학습 + 문제 연습 + 복습까지 한 번에</p>
+
+    <!-- 오답 패턴 배너 -->
+    <div class="pattern-banner" id="pattern-banner">
+      <div class="pattern-title">📊 내 취약 유형 분석</div>
+      <div class="pattern-list" id="pattern-list"></div>
+    </div>
+
+    <!-- 카테고리 탭 -->
+    <div class="cat-tabs">
+      <button class="cat-tab active" onclick="filterCards('all')">전체</button>
+      <button class="cat-tab" onclick="filterCards('task')">Task 연습</button>
+      <button class="cat-tab" onclick="filterCards('test')">모의고사</button>
+    </div>
+
+    <div class="card-grid" id="card-grid">
+
+      <!-- Task 1 -->
+      <div class="test-card t1" data-cat="task" onclick="goStrategy('task1')">
+        <div class="card-eyebrow">Task 1</div>
+        <div class="card-title">Listen &amp; Choose a Response</div>
+        <div class="card-desc">짧은 발화를 듣고 가장 자연스러운 응답 고르기. Wh-/Non Wh-/Statements 유형별 전략 포함</div>
+        <div class="card-meta">
+          <span>📋 3섹션</span>
+          <span>🎯 전략 포함</span>
+          <span>❓ 연습문제</span>
+        </div>
+      </div>
+
+      <!-- Task 2 -->
+      <div class="test-card t2" data-cat="task" onclick="alert('Task 2 교재 업로드 후 추가됩니다')">
+        <div class="card-eyebrow">Task 2</div>
+        <div class="card-title">Listen to a Conversation</div>
+        <div class="card-desc">캠퍼스/일상 대화를 듣고 Main Topic, Detail, Intention 등 7가지 문제 유형 대비</div>
+        <div class="card-meta">
+          <span>📋 준비 중</span>
+          <span>🔜 업로드 예정</span>
+        </div>
+      </div>
+
+      <!-- Task 3 -->
+      <div class="test-card t3" data-cat="task" onclick="alert('Task 3 교재 업로드 후 추가됩니다')">
+        <div class="card-eyebrow">Task 3</div>
+        <div class="card-title">Listen to an Announcement</div>
+        <div class="card-desc">교내 공지/안내 방송을 듣고 Main Topic, To Do, Intention 등 유형별 공략</div>
+        <div class="card-meta">
+          <span>📋 준비 중</span>
+          <span>🔜 업로드 예정</span>
+        </div>
+      </div>
+
+      <!-- Task 4 -->
+      <div class="test-card t4" data-cat="task" onclick="alert('Task 4 교재 업로드 후 추가됩니다')">
+        <div class="card-eyebrow">Task 4</div>
+        <div class="card-title">Listen to an Academic Talk</div>
+        <div class="card-desc">학술 강의를 듣고 Main Topic, Organization, Inference 등 고난도 유형 대비</div>
+        <div class="card-meta">
+          <span>📋 준비 중</span>
+          <span>🔜 업로드 예정</span>
+        </div>
+      </div>
+
+      <!-- 진단 테스트 -->
+      <div class="test-card diag" data-cat="test" onclick="startTest('diag')">
+        <div class="card-eyebrow">Diagnostic</div>
+        <div class="card-title">진단 테스트</div>
+        <div class="card-desc">현재 수준을 빠르게 파악. Task 1~4 통합 구성</div>
+        <div class="card-meta">
+          <span>📝 10문항</span>
+          <span>⏱ 10분</span>
+        </div>
+      </div>
+
+      <!-- Actual Test 1 -->
+      <div class="test-card actual" data-cat="test" onclick="startTest('actual1')">
+        <div class="card-eyebrow">Actual Test 1</div>
+        <div class="card-title">실전 모의고사 1</div>
+        <div class="card-desc">Campus Life + Academic 주제 실전 구성</div>
+        <div class="card-meta">
+          <span>📝 12문항</span>
+          <span>⏱ 12분</span>
+        </div>
+      </div>
+
+      <!-- Actual Test 2 -->
+      <div class="test-card actual" data-cat="test" onclick="startTest('actual2')">
+        <div class="card-eyebrow">Actual Test 2</div>
+        <div class="card-title">실전 모의고사 2</div>
+        <div class="card-desc">다양한 주제의 강의와 대화 심화 실전</div>
+        <div class="card-meta">
+          <span>📝 12문항</span>
+          <span>⏱ 12분</span>
+        </div>
+      </div>
+
+    </div><!-- /card-grid -->
+
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num" id="stat-total">0</div><div class="stat-label">총 풀이 횟수</div></div>
+      <div class="stat-item"><div class="stat-num" id="stat-correct">0%</div><div class="stat-label">평균 정답률</div></div>
+      <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Task 유형</div></div>
+      <div class="stat-item"><div class="stat-num" id="stat-streak">0</div><div class="stat-label">연속 정답</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======= STRATEGY SCREEN ======= -->
+<div id="strategy" class="screen">
+  <div class="strategy-header">
+    <button class="back-btn" onclick="goHome()">← 홈</button>
+    <span class="header-title" id="strat-header-title"></span>
+  </div>
+  <div class="strat-body" id="strat-body"></div>
+</div>
+
+<!-- ======= TEST SCREEN ======= -->
+<div id="test" class="screen">
+  <div class="test-header">
+    <div class="header-left">
+      <button class="back-btn" onclick="confirmBack()">← 홈</button>
+      <span class="header-title" id="test-title-label"></span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-label" id="progress-label">0 / 0</div>
+    </div>
+    <div class="timer" id="timer">10:00</div>
+  </div>
+  <div class="q-wrap" id="q-wrap"></div>
+</div>
+
+<!-- ======= RESULT SCREEN ======= -->
+<div id="result" class="screen">
+  <div class="result-inner">
+    <div class="result-header">
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg class="ring-svg" viewBox="0 0 140 140">
+            <defs>
+              <linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#14A0A0"/>
+                <stop offset="100%" stop-color="#0A5E5D"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="70" cy="70" r="60"/>
+            <circle class="ring-fg" id="ring-fg" cx="70" cy="70" r="60"/>
+          </svg>
+          <div class="ring-center">
+            <span class="ring-score-num" id="ring-num">0</span>
+            <span class="ring-denom" id="ring-denom">/0</span>
+          </div>
+        </div>
+      </div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-sub" id="result-sub"></div>
+    </div>
+
+    <div class="result-card" id="breakdown-card"></div>
+    <div class="result-card" id="review-card"></div>
+
+    <div class="result-actions">
+      <button class="btn btn-ghost" onclick="goHome()">홈으로</button>
+      <button class="btn btn-ghost" id="retry-wrong-btn" onclick="retryWrong()" style="display:none">틀린 문제만 다시 풀기</button>
+      <button class="btn btn-primary" id="retry-btn">전체 다시 풀기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// AUDIO CONFIG
+// ==========================================
+// AUDIO_IDS: key → GitHub 파일명 (확장자 제외)
+const AUDIO_IDS = {
+  DT:'DT',
+  AT1:'AT1',
+  AT2:'AT2',
+  T1_S1_1_Practice:'T1_S1_1_Practice',
+  T1_S1_1_Test:'T1_S1_1_Test',
+  T1_S1_2_Practice:'T1_S1_2_Practice',
+  T1_S1_2_Test:'T1_S1_2_Test',
+  T1_S1_3_Practice:'T1_S1_3_Practice',
+  T1_S1_3_Test:'T1_S1_3_Test',
+  T1_S2_1_Practice:'T1_S2_1_Practice',
+  T1_S2_1_Test:'T1_S2_1_Test',
+  T1_S2_2_Practice:'T1_S2_2_Practice',
+  T1_S2_2_Test:'T1_S2_2_Test',
+  T1_S2_3_Practice:'T1_S2_3_Practice',
+  T1_S2_3_Test:'T1_S2_3_Test',
+  T1_S2_4_Practice:'T1_S2_4_Practice',
+  T1_S2_4_Test:'T1_S2_4_Test',
+  T1_S3_1_Practice:'T1_S3_1_Practice',
+  T1_S3_1_Test:'T1_S3_1_Test',
+  T1_S3_2_Practice:'T1_S3_2_Practice',
+  T1_S3_2_Test:'T1_S3_2_Test',
+};
+
+// DT 타임스탬프 [start, end]
+const DT_TS = {
+  Q1:[8.7,30.7],Q2:[32.8,56.6],Q3:[58.8,82.2],Q4:[84.2,106.0],
+  Q5:[107.9,130.7],Q6:[132.8,155.2],Q7:[157.7,180.1],Q8:[182.2,205.1],
+  conv1:[207.2,233.3],Q9:[233.3,256.5],Q10:[256.5,280.3],
+  conv2:[282.7,306.6],Q11:[308.0,330.1],Q12:[330.1,355.4],
+  ann1:[357.7,376.2],Q13:[376.2,397.6],Q14:[397.6,422.3],
+  ann2:[424.6,455.2],Q15:[455.2,476.5],Q16:[476.5,501.4],
+  lec:[503.5,582.7],Q17:[582.7,614.2],Q18:[614.2,645.6],
+  Q19:[645.6,676.8],Q20:[676.8,707.4],
+};
+
+// AT1 타임스탬프
+const AT1_TS = {
+  M1_Q1:[8.8,30.3],M1_Q2:[33.6,53.7],M1_Q3:[58.1,78.2],M1_Q4:[82.1,102.1],
+  M1_Q5:[105.9,126.1],M1_Q6:[130.8,150.9],M1_Q7:[156.2,176.3],M1_Q8:[182.1,202.1],
+  M1_conv1:[205.4,237.3],M1_Q9:[237.3,258.2],M1_Q10:[258.2,281.9],
+  M1_conv2:[284.8,311.0],M1_Q11:[311.0,332.1],M1_Q12:[332.1,357.3],
+  M1_ann1:[359.7,376.6],M1_Q13:[376.6,398.0],M1_Q14:[398.0,423.0],
+  M1_ann2:[425.6,454.2],M1_Q15:[454.2,475.7],M1_Q16:[475.7,500.8],
+  M1_lec:[503.1,598.5],M1_Q17:[598.5,629.9],M1_Q18:[629.9,681.2],
+  M1_Q19:[681.2,732.2],M1_Q20:[732.2,784.1],
+  M2_Q1:[791.2,811.0],M2_Q2:[815.4,835.9],M2_Q3:[840.4,860.6],
+  M2_conv1:[866.6,896.3],M2_Q4:[896.3,918.5],M2_Q5:[918.5,942.9],
+  M2_conv2:[945.9,980.3],M2_Q6:[982.2,1003.8],M2_Q7:[1003.8,1029.4],
+  M2_lec1:[1031.3,1129.5],M2_Q8:[1129.5,1161.6],M2_Q9:[1161.6,1212.5],
+  M2_Q10:[1212.5,1263.7],M2_Q11:[1263.7,1318.5],
+  M2_lec2:[1320.3,1399.6],M2_Q12:[1399.6,1431.2],M2_Q13:[1431.2,1482.4],
+  M2_Q14:[1482.4,1533.6],M2_Q15:[1533.6,1583.7],
+};
+
+// AT2 타임스탬프
+const AT2_TS = {
+  M1_Q1:[8.6,31.2],M1_Q2:[35.5,55.7],M1_Q3:[59.6,79.9],M1_Q4:[83.8,104.1],
+  M1_Q5:[108.7,128.8],M1_Q6:[133.6,153.8],M1_Q7:[158.4,178.5],M1_Q8:[182.3,202.4],
+  M1_Q9:[207.0,227.1],M1_Q10:[230.5,250.7],
+  M1_conv1:[254.2,279.5],M1_Q11:[279.5,300.6],M1_Q12:[300.6,324.6],
+  M1_conv2:[327.5,355.3],M1_Q13:[355.3,376.7],M1_Q14:[376.7,400.9],
+  M1_ann1:[403.6,436.6],M1_Q15:[436.6,458.0],M1_Q16:[458.0,482.6],
+  M1_lec:[484.9,509.1],M1_Q17:[509.1,540.7],M1_Q18:[540.7,603.3],
+  M1_Q19:[603.3,649.6],M1_Q20:[651.8,739.5],
+  M1_lec2:[741.0,772.4],M1_Q21:[772.4,803.6],M1_Q22:[803.6,835.2],
+  M1_Q23:[835.2,866.7],M1_Q24:[870.7,954.7],
+  M1_lec3:[955.7,1004.3],M1_Q25:[1004.3,1035.9],M1_Q26:[1035.9,1067.1],
+  M1_Q27:[1067.1,1098.4],M1_Q28:[1098.4,1133.5],
+  M2_Q1:[1138.4,1158.0],M2_Q2:[1161.4,1181.6],M2_Q3:[1186.5,1206.4],
+  M2_conv1:[1209.7,1244.2],M2_Q4:[1244.2,1266.3],M2_Q5:[1266.3,1290.6],
+  M2_conv2:[1293.1,1327.2],M2_Q6:[1329.6,1349.3],M2_Q7:[1350.3,1375.9],
+  M2_lec1:[1377.6,1460.1],M2_Q8:[1460.1,1492.2],M2_Q9:[1492.2,1543.2],
+  M2_Q10:[1543.2,1594.4],M2_Q11:[1594.4,1649.2],
+  M2_lec2:[1650.9,1738.4],M2_Q12:[1738.4,1769.8],M2_Q13:[1769.8,1820.9],
+  M2_Q14:[1820.9,1872.0],M2_Q15:[1872.0,1922.1],
+};
+
+const GITHUB_BASE = 'https://classfeed-edu.github.io/toefl-listening';
+
+function gUrl(filename) {
+  return `${GITHUB_BASE}/${filename}.mp3`;
+}
+
+// ==========================================
+// AUDIO PLAYER ENGINE
+// ==========================================
+let AP = {
+  el: null,        // <audio> element
+  startT: 0,
+  endT: 0,
+  isLoop: false,
+  loopCount: 0,
+  maxLoop: 3,
+  speed: 1.0,
+  rafId: null,
+  onEnded: null,
+};
+
+function initAudio() {
+  if (!AP.el) {
+    AP.el = new Audio();
+    AP.el.addEventListener('timeupdate', updateAudioProgress);
+    AP.el.addEventListener('ended', onAudioSegmentEnd);
+    AP.el.addEventListener('error', (e) => {
+      updateAudioStatus('⚠️ 음원 로딩 실패 — 잠시 후 다시 시도해주세요');
+    });
+  }
+}
+
+function loadAudio(srcId, startT, endT, label, autoPlay=false) {
+  initAudio();
+  AP.startT = startT;
+  AP.endT = endT;
+  AP.isLoop = false;
+  AP.loopCount = 0;
+  AP.speed = parseFloat(document.querySelector('.speed-btn.active')?.dataset?.speed || '1');
+
+  const url = gUrl(srcId);
+  if (AP.el.src !== url) {
+    AP.el.src = url;
+    AP.el.load();
+  }
+  AP.el.playbackRate = AP.speed;
+  AP.el.currentTime = startT;
+
+  updateAudioStatus(`⏳ 로딩 중... (${label})`);
+  updatePlayerTitle(label);
+  updateShadowingPanel(false);
+
+  if (autoPlay) {
+    AP.el.play().then(() => {
+      updateAudioStatus('▶ 재생 중');
+      setPlayBtn('⏸');
+    }).catch(e => {
+      updateAudioStatus('▶ 재생 버튼을 눌러주세요');
+    });
+  } else {
+    updateAudioStatus('▶ 재생 버튼을 눌러주세요');
+    setPlayBtn('▶');
+  }
+}
+
+function togglePlay() {
+  if (!AP.el) return;
+  if (AP.el.paused) {
+    if (AP.el.currentTime >= AP.endT - 0.3) AP.el.currentTime = AP.startT;
+    AP.el.play();
+    setPlayBtn('⏸');
+    updateAudioStatus('▶ 재생 중');
+  } else {
+    AP.el.pause();
+    setPlayBtn('▶');
+    updateAudioStatus('⏸ 일시정지');
+  }
+}
+
+function onAudioSegmentEnd() {
+  if (AP.isLoop && AP.loopCount < AP.maxLoop) {
+    AP.loopCount++;
+    AP.el.currentTime = AP.startT;
+    AP.el.play();
+    updateLoopIndicator();
+    return;
+  }
+  AP.el.pause();
+  setPlayBtn('▶');
+  updateAudioStatus('✅ 재생 완료');
+  if (!AP.isLoop && AP.onEnded) AP.onEnded();
+}
+
+function updateAudioProgress() {
+  if (!AP.el || !AP.endT) return;
+  const pct = Math.max(0, Math.min(100,
+    ((AP.el.currentTime - AP.startT) / (AP.endT - AP.startT)) * 100
+  ));
+  const fill = document.getElementById('ap-fill');
+  if (fill) fill.style.width = pct + '%';
+
+  const cur = document.getElementById('ap-cur');
+  const tot = document.getElementById('ap-tot');
+  if (cur) cur.textContent = fmtTime(AP.el.currentTime - AP.startT);
+  if (tot) tot.textContent = fmtTime(AP.endT - AP.startT);
+
+  // 끝 지점 도달시
+  if (AP.el.currentTime >= AP.endT - 0.1) {
+    onAudioSegmentEnd();
+  }
+}
+
+function setSpeed(s) {
+  AP.speed = s;
+  if (AP.el) AP.el.playbackRate = s;
+  document.querySelectorAll('.speed-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.speed) === s);
+  });
+}
+
+function toggleLoop() {
+  AP.isLoop = !AP.isLoop;
+  AP.loopCount = 0;
+  const btn = document.getElementById('loop-btn');
+  if (btn) btn.classList.toggle('active', AP.isLoop);
+  updateShadowingPanel(AP.isLoop);
+  if (!AP.isLoop) {
+    const ind = document.getElementById('loop-ind');
+    if (ind) ind.classList.remove('show');
+  }
+}
+
+function setShadowLoop(n) {
+  AP.maxLoop = n;
+  AP.loopCount = 0;
+  if (AP.el && AP.el.paused) {
+    AP.el.currentTime = AP.startT;
+    AP.el.play();
+    setPlayBtn('⏸');
+    updateAudioStatus('▶ 쉐도잉 재생 중');
+  }
+}
+
+function updateLoopIndicator() {
+  const ind = document.getElementById('loop-ind');
+  if (ind) {
+    ind.classList.add('show');
+    ind.textContent = `🔁 ${AP.loopCount}/${AP.maxLoop}회 반복 중`;
+  }
+}
+
+function updateShadowingPanel(show) {
+  const panel = document.getElementById('shad-panel');
+  if (panel) panel.classList.toggle('show', show);
+}
+
+// ==========================================
+// 녹음 (쉐도잉 비교)
+// ==========================================
+const REC = {
+  mediaRecorder: null,
+  chunks: [],
+  audioUrl: null,
+  isRecording: false,
+  myAudio: null,
+  stream: null
+};
+
+async function toggleRecord() {
+  if (REC.isRecording) {
+    stopRecording();
+    return;
+  }
+  // 녹음 시작
+  const btn = document.getElementById('rec-btn');
+  const status = document.getElementById('rec-status');
+  try {
+    // 원어민 음원이 재생 중이면 정지
+    if (AP.el && !AP.el.paused) {
+      AP.el.pause();
+      setPlayBtn('▶');
+      AP.isLoop = false;
+    }
+    REC.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    REC.chunks = [];
+    REC.mediaRecorder = new MediaRecorder(REC.stream);
+    REC.mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) REC.chunks.push(e.data);
+    };
+    REC.mediaRecorder.onstop = () => {
+      const blob = new Blob(REC.chunks, { type: 'audio/webm' });
+      if (REC.audioUrl) URL.revokeObjectURL(REC.audioUrl);
+      REC.audioUrl = URL.createObjectURL(blob);
+      REC.myAudio = new Audio(REC.audioUrl);
+      // 비교 섹션 표시
+      const cs = document.getElementById('compare-section');
+      if (cs) cs.style.display = 'block';
+      if (status) status.textContent = '✅ 녹음 완료! 아래에서 비교해보세요';
+      // 마이크 정리
+      if (REC.stream) REC.stream.getTracks().forEach(t => t.stop());
+    };
+    REC.mediaRecorder.start();
+    REC.isRecording = true;
+    if (btn) { btn.classList.add('recording'); btn.innerHTML = '<span class="rec-dot"></span> 녹음 중지'; }
+    if (status) status.textContent = '🔴 녹음 중... 음원을 따라 말해보세요';
+  } catch (err) {
+    if (status) status.textContent = '⚠️ 마이크 권한이 필요합니다. 브라우저에서 허용해주세요';
+  }
+}
+
+function stopRecording() {
+  if (REC.mediaRecorder && REC.isRecording) {
+    REC.mediaRecorder.stop();
+    REC.isRecording = false;
+    const btn = document.getElementById('rec-btn');
+    if (btn) { btn.classList.remove('recording'); btn.innerHTML = '<span class="rec-dot"></span> 다시 녹음'; }
+  }
+}
+
+function playNativeForCompare() {
+  // 내 녹음이 재생 중이면 정지
+  if (REC.myAudio && !REC.myAudio.paused) REC.myAudio.pause();
+  if (AP.el) {
+    AP.isLoop = false;
+    AP.el.currentTime = AP.startT;
+    AP.el.play();
+    setPlayBtn('⏸');
+    updateAudioStatus('🔊 원어민 음원 재생 중');
+  }
+}
+
+function playMyRecording() {
+  // 원어민 음원이 재생 중이면 정지
+  if (AP.el && !AP.el.paused) { AP.el.pause(); setPlayBtn('▶'); }
+  if (REC.myAudio) {
+    REC.myAudio.currentTime = 0;
+    REC.myAudio.play();
+  }
+}
+
+// 문제 이동 시 녹음 상태 초기화
+function resetRecording() {
+  if (REC.isRecording) stopRecording();
+  if (REC.myAudio && !REC.myAudio.paused) REC.myAudio.pause();
+  REC.myAudio = null;
+  if (REC.audioUrl) { URL.revokeObjectURL(REC.audioUrl); REC.audioUrl = null; }
+}
+
+function seekAudio(e) {
+  if (!AP.el) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  AP.el.currentTime = AP.startT + pct * (AP.endT - AP.startT);
+}
+
+function setPlayBtn(icon) {
+  const btn = document.getElementById('ap-play');
+  if (btn) btn.textContent = icon;
+}
+
+function updateAudioStatus(txt) {
+  const el = document.getElementById('ap-status');
+  if (el) el.textContent = txt;
+}
+
+function updatePlayerTitle(txt) {
+  const el = document.getElementById('ap-title');
+  if (el) el.textContent = txt;
+}
+
+function toggleScript(btn) {
+  const scriptEl = btn.nextElementSibling;
+  const isHidden = scriptEl.style.display === 'none';
+  scriptEl.style.display = isHidden ? 'block' : 'none';
+  btn.textContent = isHidden ? '📄 스크립트 숨기기' : '📄 스크립트 보기';
+}
+
+function fmtTime(s) {
+  const m = Math.floor(s/60);
+  const sec = Math.floor(s%60);
+  return `${m}:${String(sec).padStart(2,'0')}`;
+}
+
+function buildAudioPlayer() {
+  return `
+  <div class="audio-player">
+    <div class="audio-top">
+      <button class="audio-play-btn" id="ap-play" onclick="togglePlay()">▶</button>
+      <div class="audio-info">
+        <div class="audio-title" id="ap-title">음원 로딩 중...</div>
+        <div class="audio-status" id="ap-status">▶ 재생 버튼을 눌러주세요</div>
+      </div>
+      <div class="audio-speed-group">
+        <button class="speed-btn" data-speed="0.75" onclick="setSpeed(0.75)">0.75x</button>
+        <button class="speed-btn active" data-speed="1" onclick="setSpeed(1)">1x</button>
+        <button class="speed-btn" data-speed="1.25" onclick="setSpeed(1.25)">1.25x</button>
+      </div>
+    </div>
+    <div class="audio-progress-wrap">
+      <div class="audio-progress-track" onclick="seekAudio(event)">
+        <div class="audio-progress-fill" id="ap-fill"></div>
+      </div>
+      <div class="audio-time">
+        <span id="ap-cur">0:00</span>
+        <span id="ap-tot">0:00</span>
+      </div>
+    </div>
+    <div class="audio-controls-row">
+      <button class="audio-ctrl-btn" id="loop-btn" onclick="toggleLoop()">🔁 쉐도잉 모드</button>
+      <button class="audio-ctrl-btn" onclick="if(AP.el){AP.el.currentTime=AP.startT; if(AP.el.paused)AP.el.play();}">↺ 처음부터</button>
+    </div>
+    <div class="shadowing-panel" id="shad-panel">
+      <div class="shadowing-title">🎤 쉐도잉 연습</div>
+
+      <div class="shad-section">
+        <div class="shad-section-label">1단계 · 원어민 음원 반복 듣기</div>
+        <div class="shadowing-controls">
+          <button class="shad-btn" onclick="setShadowLoop(2)">2회 반복</button>
+          <button class="shad-btn" onclick="setShadowLoop(3)">3회 반복</button>
+          <button class="shad-btn" onclick="setShadowLoop(5)">5회 반복</button>
+          <button class="shad-btn" onclick="setShadowLoop(99)">무한 반복</button>
+        </div>
+        <div class="loop-indicator" id="loop-ind"></div>
+      </div>
+
+      <div class="shad-section">
+        <div class="shad-section-label">2단계 · 내 목소리 녹음</div>
+        <div class="rec-controls">
+          <button class="rec-btn" id="rec-btn" onclick="toggleRecord()">
+            <span class="rec-dot"></span> 녹음 시작
+          </button>
+          <span class="rec-status" id="rec-status">마이크 버튼을 눌러 따라 말해보세요</span>
+        </div>
+      </div>
+
+      <div class="shad-section" id="compare-section" style="display:none">
+        <div class="shad-section-label">3단계 · 나란히 비교하기</div>
+        <div class="compare-row">
+          <button class="compare-btn native" onclick="playNativeForCompare()">
+            🔊 원어민 듣기
+          </button>
+          <button class="compare-btn mine" onclick="playMyRecording()">
+            🎧 내 녹음 듣기
+          </button>
+        </div>
+        <div class="compare-hint">두 소리를 번갈아 들으며 발음·억양·속도를 비교해보세요</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ==========================================
+// STRATEGY DATA
+// ==========================================
+const STRATEGIES = {
+  task1: {
+    title: 'Task 1 전략',
+    subtitle: 'Listen and Choose a Response',
+    desc: '짧은 발화(1~2문장)를 한 번만 듣고 가장 자연스러운 응답을 4개 중에서 고릅니다. 2026년 개정 이후 가장 비중이 높은 Task입니다.',
+    sections: [
+      {
+        title: '핵심 원칙: 단어가 아닌 의도를 들어라',
+        icon: '🎯',
+        points: [
+          { text: '<strong>화자가 원하는 것</strong>을 파악하세요. 질문인지, 요청인지, 불만인지, 제안인지에 따라 응답 유형이 달라집니다.' },
+          { text: '<strong>감정 톤</strong>을 들으세요. 불만(frustration), 안도(relief), 의아함(confusion)이 담겨 있으면 응답도 그 흐름에 맞아야 합니다.' },
+          { text: '<strong>말 뒤에 숨은 기대</strong>를 읽으세요. "I was wondering if you could..."는 궁금한 게 아니라 부탁입니다. 영어의 정중한 표현에 익숙해져야 합니다.' },
+        ],
+        trap: { title: '가장 흔한 함정', items: [
+          '"Do you mind if I sit here?"를 듣고 "Yes" / "No"로 헷갈리는 경우 → Yes는 "싫다"는 뜻입니다.',
+          '발화에 나온 단어가 선택지에 그대로 포함된 답은 오답일 확률이 높습니다.',
+          'Yes/No 질문에 Yes/No가 없는 응답도 정답이 될 수 있습니다.',
+        ]}
+      },
+      {
+        title: 'Section I. Wh- 의문문 전략',
+        icon: '❓',
+        points: [
+          { text: '<strong>What/Which</strong>: 사물·장소·종류·가격 등 구체적인 정보를 묻습니다. Yes/No 응답은 무조건 오답입니다.' },
+          { text: '<strong>Who</strong>: 사람/부서를 묻습니다. professor, manager, HR department처럼 사람·직책·부서명이 포함된 선택지를 찾으세요.' },
+          { text: '<strong>Where/When</strong>: 장소/시간을 묻습니다. in the lobby, on the second floor, next Friday 같은 표현이 정답에 자주 등장합니다.' },
+          { text: '<strong>Why</strong>: 이유를 묻습니다. because/since/due to로 시작하거나 이유를 설명하는 선택지를 고르세요.' },
+          { text: '<strong>How</strong>: 방법·정도·빈도·가격을 묻습니다. How much → 가격/금액, How long → 시간, How often → 빈도로 응답 유형이 정해집니다.' },
+        ],
+        tip: 'Wh- 단어만 들어도 응답 유형이 좁혀집니다. 선택지를 보기 전에 "어떤 종류의 답변이 올 것인가"를 먼저 떠올리세요.'
+      },
+      {
+        title: 'Section II. Non Wh- 의문문 전략',
+        icon: '💬',
+        points: [
+          { text: '<strong>Be/Aux Verb 의문문</strong>(Is it...? / Can you...?): Yes/No로 직접 답하거나, Yes/No 없이 의미상 긍정·부정을 나타내는 응답도 정답이 됩니다.' },
+          { text: '<strong>Tag 의문문</strong>(..., isn\'t it? / ...right?): 앞 문장 내용을 확인·동의하는 형식입니다. 동의/반박 둘 다 정답이 될 수 있으니 맥락을 파악하세요.' },
+          { text: '<strong>Alternative 의문문</strong>(A or B?): 둘 중 하나를 고르거나, "둘 다 괜찮다(Either is fine)"처럼 제3의 응답도 정답이 됩니다. Yes/No는 무조건 오답입니다.' },
+          { text: '<strong>Suggestion/Offer/Request</strong>(How about...? / Would you like...? / Could you...?): 제안은 수락·거절·대안 제시, 요청은 수락·거절이 자연스러운 응답입니다.' },
+        ],
+        trap: { title: '오답 패턴', items: [
+          'Tag 질문에서 긍정 tag면 무조건 Yes라고 생각하는 실수 → 내용 확인이 먼저입니다.',
+          'Alternative 질문(A or B?)에 Yes/No로 답하는 경우 → 항상 오답입니다.',
+        ]}
+      },
+      {
+        title: 'Section III. 서술문(Statements) 전략',
+        icon: '📢',
+        points: [
+          { text: '<strong>Informative Statements</strong>(정보 전달): 상대방이 한 정보에 대해 공감·질문·대응하는 응답이 자연스럽습니다. "That must have been stressful." 같은 공감 표현을 익혀두세요.' },
+          { text: '<strong>Advisory Statements</strong>(충고·권유): Let\'s... / You should... / If you... / I\'d recommend... 형식입니다. 수락·거절·대안을 제시하는 응답이 정답입니다.' },
+        ],
+        tip: '서술문은 질문이 없으므로 Yes/No가 없는 자연스러운 반응을 골라야 합니다. 발화의 "의도(충고인가, 정보인가)"를 먼저 분류하세요.'
+      },
+    ],
+    practiceKey: 'task1_practice'
+  }
+};
+
+// ==========================================
+// QUESTION BANK
+// ==========================================
+const TESTS = {
+  task1_practice: {
+    title: 'Task 1 연습',
+    timeLimit: 480,
+    isTask1: true,
+    passages: [
+      {
+        type: 'task1',
+        label: 'Section I — What & Which / Who & Where/When / Why & How',
+        audioKey: 'T1_S1_1_Practice',
+        questions: [
+          {
+            stem: 'What kind of services are available at the gym?',
+            utterance: 'What kind of services are available at the gym?',
+            audioTs: [0, 34.5],
+            type: 'What Question', section: 'Wh-',
+            choices: ['Personal training and group classes.','I go there every morning.','Yes, it stays open all year.','How much is the membership fee?'],
+            answer: 0,
+            explanation: 'What kind of → 종류/내용을 묻습니다. "Personal training and group classes"처럼 구체적인 서비스 내용이 정답. B는 개인 습관(무관), C는 Yes/No(오답), D는 역질문(어색).'
+          },
+          {
+            stem: 'What is the price of this smartphone?',
+            utterance: 'What is the price of this smartphone?',
+            audioTs: [34.5, 65.7],
+            type: 'What Question', section: 'Wh-',
+            choices: ['That\'s smart thinking.','The warranty lasts three years.','It costs nine hundred dollars.','It has excellent battery life.'],
+            answer: 2,
+            explanation: 'What is the price → 가격을 묻습니다. "It costs nine hundred dollars"가 정답. A는 단어 smart를 이용한 함정, B는 보증 정보(무관), D는 배터리 정보(무관).'
+          },
+          {
+            stem: 'Which department is hosting the orientation?',
+            utterance: 'Which department is hosting the orientation?',
+            audioTs: [65.7, 97.2],
+            type: 'Which Question', section: 'Wh-',
+            choices: ['On the second floor.','The Human Resources team.','Every new employee must attend.','Sure, I\'ll send you the schedule.'],
+            answer: 1,
+            explanation: 'Which department → 부서를 묻습니다. "The Human Resources team"이 정답. A는 장소(Where), C는 참석 의무(무관), D는 일정 전달(무관).'
+          },
+          {
+            stem: 'What time is your doctor\'s appointment?',
+            utterance: 'What time is your doctor\'s appointment?',
+            audioTs: [97.2, 127.4],
+            type: 'What Question', section: 'Wh-',
+            choices: ['Yes, with Dr. Williams.','At the downtown clinic.','It\'s at 2:30 P.M.','I think I need a new medicine.'],
+            answer: 2,
+            explanation: 'What time → 시간을 묻습니다. "It\'s at 2:30 P.M."이 정답. A는 Yes/No(오답), B는 장소(Where), D는 관련 없는 내용.'
+          },
+          {
+            stem: 'Which of the projects should we prioritize?',
+            utterance: 'Which of the projects should we prioritize?',
+            audioTs: [127.4, 159.1],
+            type: 'Which Question', section: 'Wh-',
+            choices: ['Yes, it started last week.','The deadline was extended.','The client presentation.','Let\'s hire another developer.'],
+            answer: 2,
+            explanation: 'Which → 어느 것인지 선택을 묻습니다. "The client presentation"처럼 구체적인 항목이 정답. A는 Yes/No(오답), B·D는 관련 없는 내용.'
+          },
+          {
+            stem: 'Who will be speaking at the graduation ceremony?',
+            utterance: 'Who will be speaking at the graduation ceremony?',
+            audioTs: [0, 35.5],
+            audioKey: 'T1_S1_2_Practice',
+            type: 'Who Question', section: 'Wh-',
+            choices: ['It begins at 2 P.M.','In the auditorium.','Professor Lee, I think.','Yes, my parents are attending.'],
+            answer: 2,
+            explanation: 'Who → 사람을 묻습니다. "Professor Lee"처럼 사람 이름/직책이 정답. A는 시간(When), B는 장소(Where), D는 Yes/No(오답).'
+          },
+          {
+            stem: 'Where can I find the electronics department?',
+            utterance: 'Where can I find the electronics department?',
+            audioTs: [35.5, 67.0],
+            audioKey: 'T1_S1_2_Practice',
+            type: 'Where Question', section: 'Wh-',
+            choices: ['The newest model was released last week.','Most items have a one-year warranty.','Take the escalator to the third floor.','No, my smartphone is broken.'],
+            answer: 2,
+            explanation: 'Where → 장소/방향을 묻습니다. "Take the escalator to the third floor"처럼 위치 안내가 정답. A·B는 제품 정보(무관), D는 Yes/No(오답).'
+          },
+          {
+            stem: 'Why was the project deadline extended?',
+            utterance: 'Why was the project deadline extended?',
+            audioTs: [0, 34.4],
+            audioKey: 'T1_S1_3_Practice',
+            type: 'Why Question', section: 'Wh-',
+            choices: ['I had some technical difficulties.','The new deadline is next month.','I\'ll work overtime to finish it.','Because I finished it early.'],
+            answer: 0,
+            explanation: 'Why → 이유를 묻습니다. "I had some technical difficulties"가 이유를 직접 설명하는 정답. B는 새 마감일 정보(무관), C는 앞으로의 계획(무관), D는 반대 이유(오답).'
+          },
+          {
+            stem: 'Why is the Internet connection so slow today?',
+            utterance: 'Why is the Internet connection so slow today?',
+            audioTs: [34.4, 66.9],
+            audioKey: 'T1_S1_3_Practice',
+            type: 'Why Question', section: 'Wh-',
+            choices: ['Sure, you can borrow my phone.','We should make fast decisions.','Seems like the router needs repairs.','I need to send some large files.'],
+            answer: 2,
+            explanation: 'Why → 이유를 묻습니다. "the router needs repairs"가 원인을 설명하는 정답. A·B는 질문과 무관, D는 파일 전송 필요(이유가 아님).'
+          },
+          {
+            stem: 'Why did the lecture get canceled?',
+            utterance: 'Why did the lecture get canceled?',
+            audioTs: [66.9, 97.3],
+            audioKey: 'T1_S1_3_Practice',
+            type: 'Why Question', section: 'Wh-',
+            choices: ['Classes begin next week.','Actually, it was rescheduled.','We offer ten different courses.','How about another time?'],
+            answer: 1,
+            explanation: 'Why → 취소 이유를 묻습니다. "it was rescheduled(일정 변경됨)"가 가장 자연스러운 응답. A는 수업 시작 시기(무관), C는 과정 수(무관), D는 역제안(어색).'
+          },
+        ]
+      },
+      {
+        type: 'task1',
+        label: 'Section II — Be/Aux / Tag / Alternative / Suggestion',
+        audioKey: 'T1_S2_1_Practice',
+        questions: [
+          {
+            stem: 'Do you need help with your research project?',
+            utterance: 'Do you need help with your research project?',
+            audioTs: [0, 33.9],
+            type: 'Be/Aux Verb Question', section: 'Non Wh-',
+            choices: ['The project is due tomorrow.','Yes, I could use some assistance.','Yes, I think I can handle it on my own.','The research lab isn\'t open now.'],
+            answer: 1,
+            explanation: 'Do you need help? → 도움 필요 여부 확인입니다. "Yes, I could use some assistance"가 도움을 수락하는 자연스러운 응답. A는 마감일 정보(무관), C는 혼자 할 수 있다는 거절, D는 연구실 정보(무관).'
+          },
+          {
+            stem: 'Isn\'t the bookstore having a sale this week?',
+            utterance: 'Isn\'t the bookstore having a sale this week?',
+            audioTs: [33.9, 64.9],
+            type: 'Be/Aux Verb Question', section: 'Non Wh-',
+            choices: ['I\'m looking for some used textbooks.','Yes, they were really expensive.','We should check their website.','It is near the city library.'],
+            answer: 2,
+            explanation: 'Isn\'t...? → 사실 확인을 구합니다. 확실하지 않을 때 "We should check their website"는 매우 자연스러운 응답. A는 관련 있지만 핵심에 답 안 함, B는 과거형(어색), D는 위치(무관).'
+          },
+          {
+            stem: 'The weather is really nice today, isn\'t it?',
+            utterance: 'The weather is really nice today, isn\'t it?',
+            audioTs: [0, 34.4],
+            audioKey: 'T1_S2_2_Practice',
+            type: 'Tag Question', section: 'Non Wh-',
+            choices: ['Yes, perfect for a walk outside.','What is your favorite season?','Yes, this heat is unbearable.','I\'m not sure whether I will attend.'],
+            answer: 0,
+            explanation: 'Tag Question → 동의를 구합니다. "Yes, perfect for a walk outside"는 날씨 좋다는 말에 동의하며 자연스럽게 이어지는 응답. B는 역질문(어색), C는 내용 모순(날씨 좋다는데 더위가 견딜 수 없다?), D는 무관.'
+          },
+          {
+            stem: 'Ms. Lawson wasn\'t in the office yesterday, was she?',
+            utterance: 'Ms. Lawson wasn\'t in the office yesterday, was she?',
+            audioTs: [34.4, 67.5],
+            audioKey: 'T1_S2_2_Practice',
+            type: 'Tag Question', section: 'Non Wh-',
+            choices: ['Her assistant quit last week.','She called in sick.','She works late on Tuesdays.','Her office is on the second floor.'],
+            answer: 1,
+            explanation: 'Tag Question → 어제 부재를 확인합니다. "She called in sick"은 왜 없었는지 설명하는 자연스러운 응답. A·C·D는 질문의 핵심(어제 부재 이유)에 답하지 않음.'
+          },
+          {
+            stem: 'Would you like to join us for dinner or meet up later?',
+            utterance: 'Would you like to join us for dinner or meet up later?',
+            audioTs: [0, 34.9],
+            audioKey: 'T1_S2_3_Practice',
+            type: 'Alternative Question', section: 'Non Wh-',
+            choices: ['At the department store.','I\'ll meet you after dinner.','They serve Italian food.','What time is the movie?'],
+            answer: 1,
+            explanation: 'A or B? → 둘 중 선택합니다. "I\'ll meet you after dinner"는 B(나중에 만나기)를 선택한 자연스러운 응답. A는 장소(Where), C는 식당 정보(무관), D는 역질문(어색).'
+          },
+          {
+            stem: 'Would you prefer to meet in my office or yours?',
+            utterance: 'Would you prefer to meet in my office or yours?',
+            audioTs: [34.9, 67.0],
+            audioKey: 'T1_S2_3_Practice',
+            type: 'Alternative Question', section: 'Non Wh-',
+            choices: ['Let\'s use the conference room instead.','The meeting starts at noon.','I\'ll bring the presentation slides.','Your report was excellent.'],
+            answer: 0,
+            explanation: 'A or B? → 제3의 대안도 정답이 됩니다. "Let\'s use the conference room instead"는 둘 다 아닌 새 장소를 제안 → 정답. B·C·D는 장소 선택에 답하지 않음.'
+          },
+          {
+            stem: 'Would you like to join our study group?',
+            utterance: 'Would you like to join our study group?',
+            audioTs: [0, 32.6],
+            audioKey: 'T1_S2_4_Practice',
+            type: 'Suggestion Question', section: 'Non Wh-',
+            choices: ['Sure, when do you meet?','The library closes at 9 P.M.','I studied for three hours.','Yes, these study materials.'],
+            answer: 0,
+            explanation: 'Would you like to...? → 제안입니다. "Sure, when do you meet?"는 수락하며 구체적 정보를 요청하는 자연스러운 응답. B·C·D는 핵심에 답하지 않음.'
+          },
+          {
+            stem: 'Do you want me to print some extra copies?',
+            utterance: 'Do you want me to print some extra copies?',
+            audioTs: [32.6, 63.9],
+            audioKey: 'T1_S2_4_Practice',
+            type: 'Offer Question', section: 'Non Wh-',
+            choices: ['The slides look colorful.','That\'s a great idea.','In the conference room.','No, I\'m not sure about the format.'],
+            answer: 1,
+            explanation: 'Do you want me to...? → 제공 제안입니다. "That\'s a great idea"는 제안을 수락하는 자연스러운 응답. A는 슬라이드 외관(무관), C는 장소(무관), D는 불확실 표현(어색).'
+          },
+          {
+            stem: 'Can you tell me where the student lounge is?',
+            utterance: 'Can you tell me where the student lounge is?',
+            audioTs: [63.9, 94.6],
+            audioKey: 'T1_S2_4_Practice',
+            type: 'Request Question', section: 'Non Wh-',
+            choices: ['Yes, this is comfortable.','I\'ll take you there.','We need more sofas.','I\'ll call the event organizer.'],
+            answer: 1,
+            explanation: 'Can you tell me...? → 장소 안내 요청입니다. "I\'ll take you there"는 직접 안내해 주겠다는 가장 친절하고 자연스러운 응답. A는 Yes/No(어색), C·D는 무관.'
+          },
+        ]
+      },
+      {
+        type: 'task1',
+        label: 'Section III — Informative & Advisory Statements',
+        audioKey: 'T1_S3_1_Practice',
+        questions: [
+          {
+            stem: 'My car broke down on the highway this morning.',
+            utterance: 'My car broke down on the highway this morning.',
+            audioTs: [0, 33.8],
+            type: 'Informative Statement', section: 'Statements',
+            choices: ['That must have been stressful.','I usually take the subway.','Yes, traffic was terrible.','80 kilometers per hour.'],
+            answer: 0,
+            explanation: '"차가 고장났다"는 정보 전달입니다. "That must have been stressful"처럼 공감을 표현하는 응답이 자연스럽습니다. B는 자신의 이동 수단(무관), C는 교통체증(간접 관련이지만 핵심에서 벗어남), D는 속도(완전 무관).'
+          },
+          {
+            stem: 'The movie starts in twenty minutes.',
+            utterance: 'The movie starts in twenty minutes.',
+            audioTs: [33.8, 64.0],
+            type: 'Informative Statement', section: 'Statements',
+            choices: ['I\'ll grab my coat and we can go.','The theater is being renovated.','Films are expensive these days.','She started working there last week.'],
+            answer: 0,
+            explanation: '"영화가 20분 후 시작"이라는 정보에 "코트 챙기고 가자"는 즉각적이고 자연스러운 행동 반응. B는 극장 공사(무관), C는 영화 가격(무관), D는 완전 무관.'
+          },
+          {
+            stem: 'I\'m going to the supermarket right now.',
+            utterance: 'I\'m going to the supermarket right now.',
+            audioTs: [64.0, 94.2],
+            type: 'Informative Statement', section: 'Statements',
+            choices: ['In the fridge.','Every Sunday.','Can I come with you?','The clothing store is not open.'],
+            answer: 2,
+            explanation: '"슈퍼마켓 간다"는 정보에 "같이 가도 될까요?"는 가장 자연스러운 반응. A는 냉장고(무관), B는 빈도(무관), D는 의류점(무관).'
+          },
+          {
+            stem: 'Your presentation was impressive today.',
+            utterance: 'Your presentation was impressive today.',
+            audioTs: [0, 33.4],
+            audioKey: 'T1_S3_2_Practice',
+            type: 'Informative Statement', section: 'Statements',
+            choices: ['Your present is on the table.','Thanks, I worked hard on it.','Today is Tuesday, right?','I\'m impressed by this sculpture.'],
+            answer: 1,
+            explanation: '"발표가 인상적이었다"는 칭찬에 "감사해요, 열심히 했어요"가 자연스러운 응답. A는 단어 present를 이용한 함정, C는 날짜 확인(무관), D는 조각품(무관).'
+          },
+          {
+            stem: 'You should clean the lab equipment after use.',
+            utterance: 'You should clean the lab equipment after use.',
+            audioTs: [33.4, 63.6],
+            audioKey: 'T1_S3_2_Practice',
+            type: 'Advisory Statement', section: 'Statements',
+            choices: ['Equipment is expensive.','The lab opens at 8 A.M.','I\'ll make sure to do that.','Using microscopes is fun.'],
+            answer: 2,
+            explanation: '"실험 장비를 사용 후 청소해야 한다"는 충고입니다. "I\'ll make sure to do that"는 충고를 수용하는 자연스러운 응답. A·B·D는 충고의 핵심(청소)에 답하지 않음.'
+          },
+          {
+            stem: 'I\'d love if you could attend the holiday party next weekend.',
+            utterance: 'I\'d love if you could attend the holiday party next weekend.',
+            audioTs: [63.6, 97.6],
+            audioKey: 'T1_S3_2_Practice',
+            type: 'Advisory Statement', section: 'Statements',
+            choices: ['The holidays are in December.','I\'ll bring a dessert to share.','Your house has a nice garden.','They loved the gift you sent.'],
+            answer: 1,
+            explanation: '"파티에 참석해 주면 좋겠다"는 권유입니다. "I\'ll bring a dessert to share"는 참석 의사를 행동으로 보여주는 자연스러운 수락. A는 공휴일 시기(무관), C·D는 완전 무관.'
+          },
+        ]
+      },
+    ]
+  },
+
+  diag: {
+    title: '진단 테스트',
+    timeLimit: 600,
+    passages: [
+      {
+        type: 'task1',
+        label: 'Task 1 · Choose the Best Response',
+        audioKey: 'DT',
+        questions: [
+          {
+            stem: 'Who is in charge of the marketing campaign?',
+            utterance: 'Who is in charge of the marketing campaign?',
+            audioTs: DT_TS.Q1, type: 'Who Question', section: 'Task1',
+            choices: ['Sandra does.','I have no idea.','It needs improvement.','After about a week or two.'],
+            answer: 1,
+            explanation: 'Who → 담당자를 묻습니다. "I have no idea(전혀 모르겠어요)"는 모른다는 자연스러운 응답. A는 "Sandra does"로 적절해 보이지만 "does"만으로는 어색. C·D는 무관.'
+          },
+          {
+            stem: 'Would you prefer a window or an aisle seat?',
+            utterance: 'Would you prefer a window or an aisle seat?',
+            audioTs: DT_TS.Q2, type: 'Alternative Question', section: 'Task1',
+            choices: ['I\'ll check under my seat.','It\'s near the front of the plane.','Anywhere but the middle is fine.','In the overhead compartment.'],
+            answer: 2,
+            explanation: 'A or B? → 둘 중 선택. "Anywhere but the middle is fine"은 가운데만 아니면 된다는 제3의 응답 → 정답. A·B·D는 선택에 답하지 않음.'
+          },
+          {
+            stem: 'Did you receive my email about the project deadline?',
+            utterance: 'Did you receive my email about the project deadline?',
+            audioTs: DT_TS.Q3, type: 'Auxiliary Verb Question', section: 'Task1',
+            choices: ['I haven\'t checked my inbox since yesterday.','Yes, the project is quite challenging.','Do you need it now?','Very important.'],
+            answer: 0,
+            explanation: '"이메일 받았나요?"라는 질문에 "어제 이후로 받은 편지함을 확인하지 않았어요"는 자연스러운 응답. B·D는 이메일 수신 여부에 답하지 않음.'
+          },
+          {
+            stem: 'When is the fire drill?',
+            utterance: 'When is the fire drill?',
+            audioTs: DT_TS.Q4, type: 'When Question', section: 'Task1',
+            choices: ['She was recently fired.','We need to be prepared.','Any time now.','Inside the whole building.'],
+            answer: 2,
+            explanation: 'When → 시간을 묻습니다. "Any time now(이제 곧)"이 정답. A는 fire를 이용한 함정(해고), B는 준비(무관), D는 장소(무관).'
+          },
+          {
+            stem: 'I\'m going to apply to be an exchange student.',
+            utterance: 'I\'m going to apply to be an exchange student.',
+            audioTs: DT_TS.Q5, type: 'Informative Statement', section: 'Task1',
+            choices: ['The committee meets on Thursday.','I\'m thinking about doing that, too.','Next semester.','A school in Spain.'],
+            answer: 1,
+            explanation: '"교환학생 지원할 거예요"라는 정보에 "저도 그걸 생각 중이에요"가 가장 자연스러운 공감 응답. A·C·D는 무관.'
+          },
+          {
+            stem: 'Where can I pick up my grocery order?',
+            utterance: 'Where can I pick up my grocery order?',
+            audioTs: DT_TS.Q6, type: 'Where Question', section: 'Task1',
+            choices: ['The store closes at 9 P.M.','They offer delivery now, too.','You should get a text message with instructions.','Business has really picked up.'],
+            answer: 2,
+            explanation: 'Where → 수령 장소를 묻습니다. "안내가 담긴 문자 메시지를 받게 될 거예요"가 정답. A는 영업시간(무관), B는 배송 정보(무관), D는 business picked up 함정.'
+          },
+          {
+            stem: 'Are you comfortable with the decision?',
+            utterance: 'Are you comfortable with the decision?',
+            audioTs: DT_TS.Q7, type: 'Be Verb Question', section: 'Task1',
+            choices: ['No, it\'s very comfortable.','They settled on it.','I decided against going.','It was out of my hands.'],
+            answer: 3,
+            explanation: '"결정에 괜찮으신가요?"라는 질문에 "그건 제 관할 밖이었어요"는 자신이 결정권이 없었음을 나타내는 자연스러운 응답. A는 comfortable 함정, B·C는 무관.'
+          },
+          {
+            stem: 'Isn\'t a vegetarian menu available here?',
+            utterance: 'Isn\'t a vegetarian menu available here?',
+            audioTs: DT_TS.Q8, type: 'Be Verb Question', section: 'Task1',
+            choices: ['Yes, the chicken is the best here.','Let me call the waiter over to ask.','This restaurant opened last month.','I don\'t think I\'m hungry.'],
+            answer: 1,
+            explanation: '"채식 메뉴 있지 않나요?"라는 질문에 확실히 모를 때 "웨이터를 불러 물어볼게요"가 자연스러운 응답. A는 chicken 언급(채식과 모순), C·D는 무관.'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Campus Life',
+        context: 'Listen to a conversation.',
+        audioKey: 'DT',
+        audioTs: DT_TS.conv1,
+        script: `M: Are you ready for the big get-together at Sarah's house this weekend?\nW: Of course! Nothing beats a backyard cookout with friends. I heard there will be live music, too.\nM: That sounds great! I love a good barbecue. What time does it start again?\nW: It starts at 2 P.M. on Saturday. I'm bringing my famous potato salad.\nM: Perfect! I'll bring some drinks and see you there.`,
+        questions: [
+          {
+            stem: 'What event are the speakers discussing?',
+            audioTs: DT_TS.Q9, audioKey: 'DT',
+            type: 'Main Topic', section: 'Conversation',
+            choices: ['A barbecue party','A dinner reservation','A cooking class','A restaurant opening'],
+            answer: 0,
+            explanation: '두 사람은 Sarah 집에서 열리는 뒷마당 요리 모임(barbecue party)에 대해 이야기합니다.'
+          },
+          {
+            stem: 'What does the woman plan to bring to the event?',
+            audioTs: DT_TS.Q10, audioKey: 'DT',
+            type: 'Detail', section: 'Conversation',
+            choices: ['Music equipment','Some beverages','Her potato salad','Barbecue ingredients'],
+            answer: 2,
+            explanation: '여자는 "I\'m bringing my famous potato salad"라고 직접 언급했습니다.'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Campus Life',
+        context: 'Listen to a conversation.',
+        audioKey: 'DT',
+        audioTs: DT_TS.conv2,
+        script: `W: I'm torn between taking the bus and driving to campus every day. What do you think would work best?\nM: It really depends on your priorities. If you want to cut back on expenses, public transportation is definitely the way to go, especially considering the cost of gas.\nW: I guess that makes sense. However, I'm concerned about the time factor. Wouldn't driving shorten my commute?\nM: Fair enough.`,
+        questions: [
+          {
+            stem: 'What reason does the man give for his suggestion to use public transportation?',
+            audioTs: DT_TS.Q11, audioKey: 'DT',
+            type: 'Detail', section: 'Conversation',
+            choices: ['It is more convenient.','It saves time during busy hours.','It helps save money.','It is better for the environment.'],
+            answer: 2,
+            explanation: '남자는 "비용을 줄이고 싶으시다면 대중교통이 좋은 방법"이라고 했습니다 → 돈 절약(C).'
+          },
+          {
+            stem: 'What does the woman say about driving to campus?',
+            audioTs: DT_TS.Q12, audioKey: 'DT',
+            type: 'Detail', section: 'Conversation',
+            choices: ['It would make her commute more stressful.','It would reduce her travel time.','It would fit her schedule better.','It would prevent her from being late.'],
+            answer: 1,
+            explanation: '여자는 "운전하는 것이 통근 시간을 줄이지 않을까요?"라고 했습니다 → 이동 시간 단축(B).'
+          },
+        ]
+      },
+      {
+        type: 'announcement',
+        label: 'Announcement · University Club Meeting',
+        context: 'Listen to an announcement at a university club meeting.',
+        audioKey: 'DT',
+        audioTs: DT_TS.ann1,
+        script: `Thanks for joining the photography club's weekly gathering! Before we begin, I'd like to inform you about our upcoming exhibition. We're accepting submissions on the theme of urban landscapes, and all photos must be uploaded to our website by next Friday for review. Best wishes to all participants!`,
+        questions: [
+          {
+            stem: 'What is the main topic of the announcement?',
+            audioTs: DT_TS.Q13, audioKey: 'DT',
+            type: 'Main Topic', section: 'Announcement',
+            choices: ['A guest presentation','A weekly schedule','A photography exhibition','An upcoming workshop'],
+            answer: 2,
+            explanation: '공지는 사진 동아리의 다가오는 전시회에 관한 것입니다.'
+          },
+          {
+            stem: 'What should students do according to the announcement?',
+            audioTs: DT_TS.Q14, audioKey: 'DT',
+            type: 'To Do', section: 'Announcement',
+            choices: ['Submit entries by the deadline','Attend the next workshop','Vote for photographs online','Sign up to display their photos'],
+            answer: 0,
+            explanation: '"다음 주 금요일까지 웹사이트에 사진을 업로드해야 한다"→ 마감일까지 작품 제출(A).'
+          },
+        ]
+      },
+      {
+        type: 'announcement',
+        label: 'Announcement · School Event',
+        context: 'Listen to an announcement at a school event.',
+        audioKey: 'DT',
+        audioTs: DT_TS.ann2,
+        script: `Attention school career fair attendees. We'd like to introduce an exciting opportunity for students interested in summer internships. Local businesses are offering paid internship positions in the fields of marketing, technology, and healthcare. To apply, please bring your résumé along with a completed internship application form to the guidance counselor's office by this Friday.`,
+        questions: [
+          {
+            stem: 'What is the main purpose of the announcement?',
+            audioTs: DT_TS.Q15, audioKey: 'DT',
+            type: 'Main Purpose', section: 'Announcement',
+            choices: ['To introduce career counselors','To promote internship opportunities','To announce a job fair schedule','To explain college application procedures'],
+            answer: 1,
+            explanation: '공지의 목적은 여름 인턴십 기회를 홍보하는 것입니다.'
+          },
+          {
+            stem: 'What should students submit to apply by this Friday?',
+            audioTs: DT_TS.Q16, audioKey: 'DT',
+            type: 'Detail', section: 'Announcement',
+            choices: ['A résumé and internship application form','College transcripts and test scores','Recommendation letters from professors','A portfolio of academic projects'],
+            answer: 0,
+            explanation: '"이력서와 완성된 인턴십 지원서를 가져오라"고 했습니다.'
+          },
+        ]
+      },
+      {
+        type: 'lecture',
+        label: 'Lecture · Economics Class',
+        context: 'Listen to a talk in an economics class.',
+        audioKey: 'DT',
+        audioTs: DT_TS.lec,
+        script: `Today, we're going to discuss the concept of network effects. Network effects happen when the value of a product or service increases as more people use it. This phenomenon plays a crucial role in modern markets, especially in the technology and communication sectors. A classic example is digital communication services, like social media platforms and messaging apps. The more people who join a platform, the more valuable it becomes. However, network effects can make it difficult for new competitors to break into established markets.`,
+        questions: [
+          {
+            stem: 'What is the main topic of the talk?',
+            audioTs: DT_TS.Q17, audioKey: 'DT',
+            type: 'Main Topic', section: 'Lecture',
+            choices: ['The challenges faced by technology markets','The history of communication networks and telephone systems','An idea to develop the social media market','A market phenomenon in the technology and communication sectors'],
+            answer: 3,
+            explanation: '강의는 기술·통신 부문의 시장 현상인 "네트워크 효과"에 관한 것입니다.'
+          },
+          {
+            stem: 'Why does the speaker mention social media platforms and messaging apps?',
+            audioTs: DT_TS.Q18, audioKey: 'DT',
+            type: 'Intention', section: 'Lecture',
+            choices: ['To give examples of digital services affected by network effects','To describe how companies reduce their initial costs','To identify which new services have been successful','To illustrate the technical features of communication technologies'],
+            answer: 0,
+            explanation: '소셜 미디어와 메시징 앱은 네트워크 효과의 영향을 받는 디지털 서비스의 예시로 언급됩니다.'
+          },
+          {
+            stem: 'According to the speaker, what is a problem caused by network effects?',
+            audioTs: DT_TS.Q19, audioKey: 'DT',
+            type: 'Detail', section: 'Lecture',
+            choices: ['High network access costs','Complicated platform interfaces','Competitive barriers to entry','Insufficient initial user attraction'],
+            answer: 2,
+            explanation: '"새 경쟁자들이 기존 시장에 진입하기 어렵다"고 했습니다 → 진입에 대한 경쟁 장벽(C).'
+          },
+          {
+            stem: 'What will the speaker discuss next?',
+            audioTs: DT_TS.Q20, audioKey: 'DT',
+            type: 'Discuss Next', section: 'Lecture',
+            choices: ['The benefits of building network platforms','The strategic management of network effects by companies','The technical aspects of communication networks','The psychological reasons why people join monopolistic networks'],
+            answer: 1,
+            explanation: '"다음으로 기업들이 네트워크 효과를 전략적으로 관리하는 방법을 살펴볼 것"이라고 했습니다.'
+          },
+        ]
+      },
+    ]
+  },
+
+  actual1: {
+    title: 'Actual Test 1',
+    timeLimit: 720,
+    passages: [
+      {
+        type: 'task1',
+        label: 'Task 1 · Module 1 · Choose the Best Response',
+        audioKey: 'AT1',
+        questions: [
+          {
+            stem: 'Would you mind helping me set up the projector?',
+            utterance: 'Would you mind helping me set up the projector?',
+            audioTs: AT1_TS.M1_Q1, type: 'Request Question', section: 'Task1',
+            choices: ['Let me wrap up this email first.','Yes, the project was a success.','I really like the setup in here.','No, further from the screen.'],
+            answer: 0,
+            explanation: '"Would you mind...?" → 요청입니다. "Let me wrap up this email first"는 지금 당장 도와주기 어렵다는 완곡한 거절이자 자연스러운 응답. B는 project 함정, C는 setup 함정, D는 스크린 거리(무관).'
+          },
+          {
+            stem: 'Did you reserve the seminar room?',
+            utterance: 'Did you reserve the seminar room?',
+            audioTs: AT1_TS.M1_Q2, type: 'Auxiliary Verb Question', section: 'Task1',
+            choices: ['Who can reserve it?','Either room is available.','Yes, I should.','It\'s already booked by someone else.'],
+            answer: 3,
+            explanation: '"세미나실 예약했나요?"라는 질문에 "이미 다른 사람이 예약했어요"가 자연스러운 응답. A·B·C는 예약 여부에 직접 답하지 않음.'
+          },
+          {
+            stem: 'Where is the desk to register for membership?',
+            utterance: 'Where is the desk to register for membership?',
+            audioTs: AT1_TS.M1_Q3, type: 'Where Question', section: 'Task1',
+            choices: ['It opens at 9 A.M.','I believe it\'s in the main lobby.','You should bring your ID to register.','I\'m thinking about joining next month.'],
+            answer: 1,
+            explanation: 'Where → 장소를 묻습니다. "in the main lobby"가 위치를 알려주는 정답. A는 시간, C는 준비물, D는 가입 의향 → 모두 오답.'
+          },
+          {
+            stem: 'I\'m not satisfied with this blender.',
+            utterance: 'I\'m not satisfied with this blender.',
+            audioTs: AT1_TS.M1_Q4, type: 'Informative Statement', section: 'Task1',
+            choices: ['So am I.','I recommend a microwave.','It blends in well.','Oh, I didn\'t expect that.'],
+            answer: 3,
+            explanation: '"믹서기에 만족 안 해요"라는 정보에 "아, 그러실 줄 몰랐어요"가 자연스러운 반응. A는 "저도 그래요"(맥락 어색), B는 전자레인지 추천(무관), C는 blends 함정.'
+          },
+          {
+            stem: 'Who is attending the board meeting tomorrow?',
+            utterance: 'Who is attending the board meeting tomorrow?',
+            audioTs: AT1_TS.M1_Q5, type: 'Who Question', section: 'Task1',
+            choices: ['They provided a broad agenda.','It\'s at 10 o\'clock.','The executives will be there.','Keep me posted.'],
+            answer: 2,
+            explanation: 'Who → 참석자를 묻습니다. "The executives will be there"가 사람을 특정하는 정답. A는 broad(agenda) 함정, B는 시간, D는 역요청(무관).'
+          },
+          {
+            stem: 'Are you all ready for the company\'s product rollout tomorrow?',
+            utterance: 'Are you all ready for the company\'s product rollout tomorrow?',
+            audioTs: AT1_TS.M1_Q6, type: 'Be Verb Question', section: 'Task1',
+            choices: ['We\'re all set to go.','No need to try explaining that.','I\'ve actually already tried it out.','Take a look at the sales projections.'],
+            answer: 0,
+            explanation: '"준비됐나요?"라는 질문에 "모든 준비가 되었어요"가 명확한 긍정 응답. B·C·D는 핵심에 답하지 않음.'
+          },
+          {
+            stem: 'How many sessions are going to be offered this semester in total?',
+            utterance: 'How many sessions are going to be offered this semester in total?',
+            audioTs: AT1_TS.M1_Q7, type: 'How Question', section: 'Task1',
+            choices: ['It depends mainly on the professor\'s teaching schedule.','Twelve classrooms on each floor of the building.','Beginning right at the end of August this year.','Covering various topics divided into four modules.'],
+            answer: 0,
+            explanation: '"총 몇 개의 수업?"이라는 질문에 "교수 일정에 달려 있어요"는 정확한 숫자 대신 결정 요인을 설명하는 자연스러운 응답. B·C·D는 무관.'
+          },
+          {
+            stem: 'Please bring copies of the revised handbook to this afternoon\'s training session.',
+            utterance: 'Please bring copies of the revised handbook to this afternoon\'s training session.',
+            audioTs: AT1_TS.M1_Q8, type: 'Advisory Statement', section: 'Task1',
+            choices: ['Several errors in the old employee manual, actually.','The training room was used earlier this morning.','In the storage facility until they can be recycled.','George is collecting them from the print shop tomorrow.'],
+            answer: 3,
+            explanation: '"수정된 핸드북 사본을 교육에 가져오라"는 요청에 "George가 내일 인쇄소에서 가져올 거예요"가 왜 지금 당장 가져올 수 없는지 설명하는 자연스러운 응답.'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Campus Life',
+        context: 'Listen to a conversation.',
+        audioKey: 'AT1',
+        audioTs: AT1_TS.M1_conv1,
+        script: `W: Did you hear the announcement this morning?\nM: Yes, I just got the email from HR. So we're officially combining with TechSolutions next month?\nW: That's right. The CEO mentioned there might be some restructuring in the marketing and IT departments.\nM: I'm a bit concerned about job security. Do you know if the company is planning any layoffs?\nW: According to the announcement, they're focusing on getting rid of jobs that are very similar to each other. I believe they'll try to relocate employees to other departments when possible.`,
+        questions: [
+          {
+            stem: 'What event are the speakers discussing?',
+            audioTs: AT1_TS.M1_Q9, audioKey: 'AT1',
+            type: 'Main Topic', section: 'Conversation',
+            choices: ['A company merger','A product launch','An employee promotion','A departmental meeting'],
+            answer: 0,
+            explanation: '두 사람은 TechSolutions와의 합병(merger)에 대해 이야기합니다.'
+          },
+          {
+            stem: 'What does the woman think about the layoffs?',
+            audioTs: AT1_TS.M1_Q10, audioKey: 'AT1',
+            type: 'Attitude', section: 'Conversation',
+            choices: ['They are unfortunate but inevitable.','They will not be implemented.','They will occur at the same time as the staff relocations.','They are planned for specific departments only.'],
+            answer: 0,
+            explanation: '여자는 유사한 직무를 없애는 데 집중한다고 했습니다 → 유감이지만 불가피한 조치(A).'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Campus Life',
+        context: 'Listen to a conversation.',
+        audioKey: 'AT1',
+        audioTs: AT1_TS.M1_conv2,
+        script: `W: Did you make the reservation for dinner with the clients next week?\nM: I did, but the restaurant just called to say they have to cancel it due to a kitchen emergency. They say they'll be closed for two weeks because of a plumbing problem.\nW: That's terrible timing. We need somewhere nice to take them.\nM: Actually, I've already found a few options downtown that can accommodate us. Why don't you check them out in advance? I'll send you the names and menu highlights.`,
+        questions: [
+          {
+            stem: 'Why can\'t the man keep the dinner reservation?',
+            audioTs: AT1_TS.M1_Q11, audioKey: 'AT1',
+            type: 'Detail', section: 'Conversation',
+            choices: ['He forgot to confirm the booking.','He was informed of an emergency closure.','He learned of the clients\' schedule change.','He has a plumbing problem at home.'],
+            answer: 1,
+            explanation: '레스토랑이 주방 응급상황으로 취소 전화를 했습니다 → 긴급 휴업 통보(B).'
+          },
+          {
+            stem: 'What does the man suggest the woman do?',
+            audioTs: AT1_TS.M1_Q12, audioKey: 'AT1',
+            type: 'Suggestion', section: 'Conversation',
+            choices: ['Search for other restaurants','Have dinner with him','Cancel the client meeting','Visit alternative venues ahead of time'],
+            answer: 3,
+            explanation: '"미리 확인해보는 게 어때요?"라고 했습니다 → 대안 장소들을 미리 방문(D).'
+          },
+        ]
+      },
+      {
+        type: 'announcement',
+        label: 'Announcement · University Event',
+        context: 'Listen to an announcement at a university event.',
+        audioKey: 'AT1',
+        audioTs: AT1_TS.M1_ann1,
+        script: `Good afternoon, everyone. I'd like to remind you that the campus talent show registration closes this Friday at 5 P.M. in the Student Center. Please remember to bring your student ID when you sign up. We look forward to seeing your performances and supporting our talented students!`,
+        questions: [
+          {
+            stem: 'What is the main topic of the announcement?',
+            audioTs: AT1_TS.M1_Q13, audioKey: 'AT1',
+            type: 'Main Topic', section: 'Announcement',
+            choices: ['An upcoming deadline','A new performance venue','A course enrollment process','A student ID policy change'],
+            answer: 0,
+            explanation: '공지는 장기자랑 등록 마감일에 관한 것입니다.'
+          },
+          {
+            stem: 'What are students advised to bring?',
+            audioTs: AT1_TS.M1_Q14, audioKey: 'AT1',
+            type: 'Detail', section: 'Announcement',
+            choices: ['A registration fee','An identification card','A performance reel','A letter of support'],
+            answer: 1,
+            explanation: '"등록 시 학생증을 지참하라"고 했습니다 → 신분증(B).'
+          },
+        ]
+      },
+      {
+        type: 'announcement',
+        label: 'Announcement · School Radio',
+        context: 'Listen to an announcement on the school radio.',
+        audioKey: 'AT1',
+        audioTs: AT1_TS.M1_ann2,
+        script: `Attention, students. This is your student council president with an important announcement. The school library will be hosting a free Study Skills Workshop this Friday from 2 to 4 P.M. in the main conference room. Professional learning coaches will share effective study techniques and time management strategies. All students are welcome to attend, and you can get even more out of it by preparing a study plan in advance and discussing it with the coaches. Don't miss this valuable opportunity!`,
+        questions: [
+          {
+            stem: 'What is the main purpose of the announcement?',
+            audioTs: AT1_TS.M1_Q15, audioKey: 'AT1',
+            type: 'Main Purpose', section: 'Announcement',
+            choices: ['To describe a new resource at the school library','To promote effective time management strategies','To explain conference room booking procedures','To provide information about an upcoming event'],
+            answer: 3,
+            explanation: '공지는 다가오는 학습법 워크숍 행사에 대한 정보를 제공합니다.'
+          },
+          {
+            stem: 'What are students encouraged to do according to the announcement?',
+            audioTs: AT1_TS.M1_Q16, audioKey: 'AT1',
+            type: 'To Do', section: 'Announcement',
+            choices: ['Discuss the event with others','Arrive early to secure a seat','Come prepared with a plan','Write down a list of questions'],
+            answer: 2,
+            explanation: '"미리 학습 계획을 준비해서 코치들과 논의하라"고 했습니다 → 계획을 준비해서 오기(C).'
+          },
+        ]
+      },
+      {
+        type: 'lecture',
+        label: 'Lecture · Archaeology Class',
+        context: 'Listen to a talk in an archaeology class.',
+        audioKey: 'AT1',
+        audioTs: AT1_TS.M1_lec,
+        script: `Experimental archaeology is a research method where archaeologists recreate ancient technologies and processes to better understand how people lived in the past. Instead of just studying artifacts in museums, researchers actually make and use replicas of ancient tools, build structures using historical techniques, and practice traditional crafts. One attractive aspect is that it allows us to gauge our ancestors' capabilities. For example, researchers have recreated Stone Age flint-knapping techniques. Another project involved constructing Iron Age houses, which taught us about their insulation properties. The method does have limitations, though. It's nearly impossible to fully replicate the cultural context of a past era.`,
+        questions: [
+          {
+            stem: 'What is the main topic of the talk?',
+            audioTs: AT1_TS.M1_Q17, audioKey: 'AT1',
+            type: 'Main Topic', section: 'Lecture',
+            choices: ['The inadequacy of traditional methods used to study history','Strengths and weaknesses of experimental archaeology','Difficulties associated with reconstructing Iron Age buildings','Differences between experimental and traditional archaeology'],
+            answer: 1,
+            explanation: '강의는 실험 고고학의 장점과 단점을 다룹니다.'
+          },
+          {
+            stem: 'What can researchers learn about from constructing Iron Age houses?',
+            audioTs: AT1_TS.M1_Q18, audioKey: 'AT1',
+            type: 'Detail', section: 'Lecture',
+            choices: ['Cutting tools','Navigation methods','Flint-knapping techniques','Insulation properties'],
+            answer: 3,
+            explanation: '"철기 시대 주택 건설 프로젝트를 통해 단열 특성에 대해 배웠다"고 했습니다.'
+          },
+          {
+            stem: 'Why does the speaker mention the cultural context of a past era?',
+            audioTs: AT1_TS.M1_Q19, audioKey: 'AT1',
+            type: 'Intention', section: 'Lecture',
+            choices: ['To highlight a shortcoming of experimental archaeology','To illustrate the importance of culture in guiding past societies','To explain how knowledge was transmitted across generations','To suggest that contemporary knowledge facilitates understanding the past'],
+            answer: 0,
+            explanation: '과거 문화적 맥락을 재현하기 어렵다는 것은 실험 고고학의 단점을 강조하기 위해 언급됩니다.'
+          },
+          {
+            stem: 'What aspect of experimental archaeology will the speaker discuss next?',
+            audioTs: AT1_TS.M1_Q20, audioKey: 'AT1',
+            type: 'Discuss Next', section: 'Lecture',
+            choices: ['Its development history','Challenges expected in experimental projects','How modern technology is integrated with traditional methods','Methods of training experimental archaeologists'],
+            answer: 2,
+            explanation: '"현대 기술을 전통적 접근법에 통합하는 방법을 탐구해봅시다"라고 했습니다.'
+          },
+        ]
+      },
+    ]
+  },
+
+  actual2: {
+    title: 'Actual Test 2',
+    timeLimit: 720,
+    passages: [
+      {
+        type: 'task1',
+        label: 'Task 1 · Module 1 · Choose the Best Response',
+        audioKey: 'AT2',
+        questions: [
+          {
+            stem: 'Let\'s arrange transportation for the field visit next week.',
+            utterance: 'Let\'s arrange transportation for the field visit next week.',
+            audioTs: AT2_TS.M1_Q1, type: 'Advisory Statement', section: 'Task1',
+            choices: ['They can use the visitor parking lot.','We\'ll discuss the goals of the visit.','How many people are supposed to come?','From our most recently opened branch.'],
+            answer: 2,
+            explanation: '"현장 방문 교통편을 준비하자"는 제안에 "얼마나 많은 사람이 올 예정인가요?"는 준비를 위한 필수 정보를 묻는 자연스러운 응답. A·B·D는 교통편 준비와 무관.'
+          },
+          {
+            stem: 'Does the company offer health insurance benefits?',
+            utterance: 'Does the company offer health insurance benefits?',
+            audioTs: AT2_TS.M1_Q2, type: 'Auxiliary Verb Question', section: 'Task1',
+            choices: ['The HR department is in charge of hiring.','Only for full-time staff.','Claims must be filed promptly.','Yes, it provides paid time off.'],
+            answer: 1,
+            explanation: '"건강보험 혜택이 있나요?"라는 질문에 "정규직만요"는 명확하고 자연스러운 응답. A는 채용 담당(무관), C는 청구 방법(무관), D는 유급휴가(다른 혜택).'
+          },
+          {
+            stem: 'What time do the fireworks begin?',
+            utterance: 'What time do the fireworks begin?',
+            audioTs: AT2_TS.M1_Q3, type: 'What Question', section: 'Task1',
+            choices: ['In front of City Hall.','They\'re really colorful.','At 9 P.M.','To celebrate the holiday.'],
+            answer: 2,
+            explanation: 'What time → 시간을 묻습니다. "At 9 P.M."이 정답. A는 장소(Where), B는 외관 묘사(무관), D는 이유(Why).'
+          },
+          {
+            stem: 'Can you explain the new software features?',
+            utterance: 'Can you explain the new software features?',
+            audioTs: AT2_TS.M1_Q4, type: 'Request Question', section: 'Task1',
+            choices: ['Which part is hard for you to understand?','You\'re quite skilled.','The software needs an update.','That works fine for me.'],
+            answer: 0,
+            explanation: '"소프트웨어 기능 설명해줄 수 있나요?"라는 요청에 "어떤 부분이 이해하기 어려운가요?"는 역질문으로 도움을 주려는 자연스러운 응답. B·C·D는 요청에 답하지 않음.'
+          },
+          {
+            stem: 'How do I access the online training materials?',
+            utterance: 'How do I access the online training materials?',
+            audioTs: AT2_TS.M1_Q5, type: 'How Question', section: 'Task1',
+            choices: ['It was developed online last year.','Yes, training is mandatory for all staff.','No, the materials aren\'t very informative.','Log in with your employee ID and the password we emailed you.'],
+            answer: 3,
+            explanation: 'How → 방법을 묻습니다. "직원 ID와 이메일로 보낸 비밀번호로 로그인하세요"가 구체적 방법을 알려주는 정답. A·B·C는 방법에 답하지 않음.'
+          },
+          {
+            stem: 'You finally got the job promotion you wanted, didn\'t you?',
+            utterance: 'You finally got the job promotion you wanted, didn\'t you?',
+            audioTs: AT2_TS.M1_Q6, type: 'Tag Question', section: 'Task1',
+            choices: ['Employees are evaluated once a year.','It was a long time coming.','The promotion helped boost sales.','I do not like my current schedule.'],
+            answer: 1,
+            explanation: '"승진했죠, 그렇지 않나요?"라는 Tag 질문에 "오랜 시간이 걸렸어요"는 동의하며 자연스럽게 이어지는 응답. A·C·D는 핵심에 답하지 않음.'
+          },
+          {
+            stem: 'When will the swimming pool be up and running again?',
+            utterance: 'When will the swimming pool be up and running again?',
+            audioTs: AT2_TS.M1_Q7, type: 'When Question', section: 'Task1',
+            choices: ['This Saturday.','Are you up for some running?','Next to the golf course.','Keep the door open.'],
+            answer: 0,
+            explanation: 'When → 시간을 묻습니다. "This Saturday"가 정답. B는 running 함정, C는 장소, D는 무관.'
+          },
+          {
+            stem: 'Who\'s covering the morning shift tomorrow?',
+            utterance: 'Who\'s covering the morning shift tomorrow?',
+            audioTs: AT2_TS.M1_Q8, type: 'Who Question', section: 'Task1',
+            choices: ['It starts at 8 in the morning.','The schedule should say.','We need to shift our focus.','Terry called in sick today.'],
+            answer: 1,
+            explanation: 'Who → 담당자를 묻습니다. "일정표에 나와 있을 거예요"는 모를 때 자연스러운 응답. A는 시간(무관), C는 shift 함정, D는 오늘 이야기(내일 담당자 아님).'
+          },
+          {
+            stem: 'I\'m afraid I won\'t be able to take a day off on Friday.',
+            utterance: 'I\'m afraid I won\'t be able to take a day off on Friday.',
+            audioTs: AT2_TS.M1_Q9, type: 'Informative Statement', section: 'Task1',
+            choices: ['Yes, that\'s why I hate downtown.','I\'ll be on vacation next month.','I usually take off around 6 on Fridays.','Then, how about Saturday instead?'],
+            answer: 3,
+            explanation: '"금요일에 쉴 수 없어요"라는 정보에 "그럼 토요일은 어떨까요?"가 대안을 제시하는 가장 자연스러운 응답. A·B는 무관, C는 take off 함정.'
+          },
+          {
+            stem: 'Would you mind closing the window?',
+            utterance: 'Would you mind closing the window?',
+            audioTs: AT2_TS.M1_Q10, type: 'Request Question', section: 'Task1',
+            choices: ['We\'re getting close.','The one next to you.','Of course not.','That\'s not mine.'],
+            answer: 2,
+            explanation: '"Would you mind...?" → 요청입니다. "Of course not(물론이죠)"은 수락하는 자연스러운 응답. A는 close 함정, B·D는 무관.'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Campus Life',
+        context: 'Listen to a conversation.',
+        audioKey: 'AT2',
+        audioTs: AT2_TS.M1_conv1,
+        script: `W: Have you booked the conference room for this afternoon yet?\nM: I tried to earlier, but it's being used until 3 P.M. Should we push back our presentation?\nW: That would really mess up our schedule. What about using the smaller room on the second floor instead?\nM: Good thinking! I'll check it out and let you know after this meeting.\nW: Perfect. I'll wrap up the slides in the meantime.`,
+        questions: [
+          {
+            stem: 'Why does the man suggest pushing back the presentation?',
+            audioTs: AT2_TS.M1_Q11, audioKey: 'AT2',
+            type: 'Detail', section: 'Conversation',
+            choices: ['The conference room is unavailable until later.','He scheduled the presentation too early.','He prefers a small room on the second floor.','The presentation slides are not ready.'],
+            answer: 0,
+            explanation: '회의실이 오후 3시까지 사용 중이어서 발표를 미루자고 제안합니다.'
+          },
+          {
+            stem: 'What will the woman do next?',
+            audioTs: AT2_TS.M1_Q12, audioKey: 'AT2',
+            type: 'Do Next', section: 'Conversation',
+            choices: ['Book a different room','Inform others about a new location','Postpone a meeting time','Complete some presentation materials'],
+            answer: 3,
+            explanation: '여자가 "I\'ll wrap up the slides in the meantime"라고 했습니다 → 발표 자료 완성(D).'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Work & Service',
+        context: 'Listen to a conversation.',
+        audioKey: 'AT2',
+        audioTs: AT2_TS.M1_conv2,
+        script: `M: Did you sort out the marketing campaign's budget issue?\nW: Not yet. I'm still crunching the numbers, but we're definitely over budget.\nM: I'd like to help. Mind if I share an idea?\nW: Not at all! I'd love to hear your thoughts.\nM: Then, how about cutting back on the print ads? We may be used to them, but digital ads are way more cost-effective.`,
+        questions: [
+          {
+            stem: 'What does the man offer to do?',
+            audioTs: AT2_TS.M1_Q13, audioKey: 'AT2',
+            type: 'Offer', section: 'Conversation',
+            choices: ['Create digital advertisements','Plan a product launch event','Design print materials','Share a way to lower expenses'],
+            answer: 3,
+            explanation: '"아이디어를 공유해도 될까요?"라고 했고 디지털 광고로 비용 절감을 제안 → 비용을 낮추는 방법 공유(D).'
+          },
+          {
+            stem: 'Why does the man mention digital ads?',
+            audioTs: AT2_TS.M1_Q14, audioKey: 'AT2',
+            type: 'Intention', section: 'Conversation',
+            choices: ['To propose increasing the overall marketing budget','To explain why print ads are preferable','To highlight his expertise in the marketing field','To suggest a more affordable alternative'],
+            answer: 3,
+            explanation: '"디지털 광고가 훨씬 더 비용 효율적"이라며 더 저렴한 대안을 제안하기 위해 언급합니다.'
+          },
+        ]
+      },
+      {
+        type: 'conversation',
+        label: 'Conversation · Campus Life',
+        context: 'Listen to a conversation.',
+        audioKey: 'AT2',
+        audioTs: AT2_TS.M1_conv2,
+        script: `W: Did you see the flyer about the farmers' market this Saturday? It runs from 8 A.M. to 3 P.M.\nM: Yes! I've wanted to check it out for a while. There's going to be organic produce, as well as fresh flowers and homemade bread.\nW: That sounds amazing! What if it rains, though? The weather hasn't been great.\nM: Don't worry about that. The market is at the plaza, under a big canopy, so we'll stay dry.\nW: OK, then. I'll meet you in front of the library next to the plaza at 9 o'clock.`,
+        questions: [
+          {
+            stem: 'What does the man assure the woman about?',
+            audioTs: AT2_TS.M1_Q15, audioKey: 'AT2',
+            type: 'Detail', section: 'Conversation',
+            choices: ['That the produce will be organic','That shopping won\'t be a problem if it rains','That 9:00 AM is a good time to go','That the location will be easy to find'],
+            answer: 1,
+            explanation: '"비가 와도 큰 천막 아래에 있어서 젖지 않을 거예요"라고 확신을 줍니다.'
+          },
+          {
+            stem: 'Where are the speakers meeting?',
+            audioTs: AT2_TS.M1_Q16, audioKey: 'AT2',
+            type: 'Detail', section: 'Conversation',
+            choices: ['At the plaza','At the library','At a bakery','At a flower shop'],
+            answer: 1,
+            explanation: '"광장 옆 도서관 앞에서 만나요"라고 했습니다 → 도서관(B).'
+          },
+        ]
+      },
+      {
+        type: 'announcement',
+        label: 'Announcement · Classroom',
+        context: 'Listen to an announcement in a classroom.',
+        audioKey: 'AT2',
+        audioTs: AT2_TS.M1_lec,
+        script: `I'd like to get your attention for a moment. Several additional guest speakers have confirmed their participation in our upcoming class discussions this semester. Therefore, we need to adjust our syllabus accordingly. The updated syllabus has been posted on the course website under the announcements section. Please review the changes and prepare questions for our distinguished visitors.`,
+        questions: [
+          {
+            stem: 'What is the main topic of the announcement?',
+            audioTs: AT2_TS.M1_Q17, audioKey: 'AT2',
+            type: 'Main Topic', section: 'Announcement',
+            choices: ['Additional guest speaker recruitment','Changes made to a course schedule','Review procedures for a syllabus','How to prepare for class discussions'],
+            answer: 1,
+            explanation: '공지는 추가 초청 연사로 인한 강의 계획서(과목 일정) 변경에 관한 것입니다.'
+          },
+          {
+            stem: 'Why does the speaker mention the announcements section?',
+            audioTs: AT2_TS.M1_Q18, audioKey: 'AT2',
+            type: 'Intention', section: 'Announcement',
+            choices: ['To encourage students to take another course','To inform students about online materials','To help students find updated information','To give students new assignments'],
+            answer: 2,
+            explanation: '"업데이트된 강의 계획서가 공지사항 섹션에 게시되었다"고 했습니다 → 업데이트된 정보를 찾도록 돕기 위해(C).'
+          },
+        ]
+      },
+      {
+        type: 'announcement',
+        label: 'Announcement · Student Meeting',
+        context: 'Listen to an announcement at a student meeting.',
+        audioKey: 'AT2',
+        audioTs: AT2_TS.M1_lec2,
+        script: `I'm excited to announce our new peer tutoring program launching next month. Unlike previous years, it will offer both in-person and online tutoring sessions to accommodate different schedules. Students can receive help in math, science, English, and foreign languages from certified student tutors who have maintained a 3.5 GPA or higher. Each tutoring session lasts one hour and is completely free for all enrolled students. Don't miss out! Simply visit our website to book your first session.`,
+        questions: [
+          {
+            stem: 'Which of the following is true about the peer tutoring program?',
+            audioTs: AT2_TS.M1_Q19, audioKey: 'AT2',
+            type: 'Detail', section: 'Announcement',
+            choices: ['Each tutoring session time varies depending on the subject.','Only students with a GPA of under 3.5 can request tutoring help.','Participating students are charged an enrollment fee.','The program was offered in just one type of format last year.'],
+            answer: 3,
+            explanation: '"이전 연도들과 다르게 대면과 온라인 모두 제공"한다 → 작년에는 한 가지 형식만 제공(D).'
+          },
+          {
+            stem: 'What does the speaker hope the listeners will do?',
+            audioTs: AT2_TS.M1_Q20, audioKey: 'AT2',
+            type: 'To Do', section: 'Announcement',
+            choices: ['Take a practice test','Purchase study materials','Reserve a tutoring session','Select a certified tutor'],
+            answer: 2,
+            explanation: '"웹사이트를 방문해 첫 번째 세션을 예약하세요"라고 했습니다 → 튜터링 세션 예약(C).'
+          },
+        ]
+      },
+      {
+        type: 'lecture',
+        label: 'Lecture · Psychology Podcast',
+        context: 'Listen to a talk on a podcast about psychology.',
+        audioKey: 'AT2',
+        audioTs: AT2_TS.M1_lec,
+        script: `Have you ever tried to memorize your friend's phone number while someone was talking to you? That's because of what psychologists call Cognitive Load Theory. Our working memory can only handle a limited amount of information at once—usually around seven pieces. When we exceed this capacity, we experience cognitive overload—it's like trying to juggle too many balls at once. There are three types: intrinsic load (mental effort required by the task), extraneous load (from outside distractions like loud music), and germane load (productive effort that builds understanding and memories).`,
+        questions: [
+          {
+            stem: 'What is the topic of the talk?',
+            audioTs: AT2_TS.M1_Q21, audioKey: 'AT2',
+            type: 'Main Topic', section: 'Lecture',
+            choices: ['How memory affects our daily activities','Three types of cognitive load','The importance of working memory capacity','How to improve concentration skills'],
+            answer: 1,
+            explanation: '강의는 인지 부하의 세 가지 유형(intrinsic, extraneous, germane)에 관한 것입니다.'
+          },
+          {
+            stem: 'According to the speaker, what is intrinsic load?',
+            audioTs: AT2_TS.M1_Q22, audioKey: 'AT2',
+            type: 'Detail', section: 'Lecture',
+            choices: ['Information that exceeds what can be processed','Irrelevant details that make it hard to concentrate','The cognitive power needed to complete a task','Energy dedicated to processing new information'],
+            answer: 2,
+            explanation: '"내재적 부하는 과제 자체가 요구하는 정신적 노력"이라고 했습니다.'
+          },
+          {
+            stem: 'Why does the speaker mention studying with loud music playing in the background?',
+            audioTs: AT2_TS.M1_Q23, audioKey: 'AT2',
+            type: 'Intention', section: 'Lecture',
+            choices: ['To suggest that studying while distracted is common','To provide an example of cognitive load caused by external influences','To explain how poor study habits develop','To emphasize the importance of smart instructional design'],
+            answer: 1,
+            explanation: '시끄러운 음악은 외적 부하(extraneous load)—외부 요인에 의한 인지 부하—의 예시입니다.'
+          },
+          {
+            stem: 'What does the speaker say about germane load?',
+            audioTs: AT2_TS.M1_Q24, audioKey: 'AT2',
+            type: 'Detail', section: 'Lecture',
+            choices: ['It occurs when intrinsic and extraneous loads are high.','It should be minimized for better learning.','It creates mental fatigue and stress.','It helps create understanding and memories.'],
+            answer: 3,
+            explanation: '"관련 부하는 이해와 기억을 만드는 생산적 정신적 노력"이라고 했습니다.'
+          },
+        ]
+      },
+    ]
+  }
+};
+
+// ==========================================
+// STATE
+// ==========================================
+let S = {
+  testKey: null,
+  allQs: [],
+  qMeta: [],
+  currentQ: 0,
+  answers: [],
+  selected: null,
+  timerInt: null,
+  timeLeft: 0,
+  isRetryWrong: false,
+  wrongIndices: [],
+  revealed: []
+};
+
+// ==========================================
+// FLATTEN
+// ==========================================
+function flatten(testKey) {
+  const test = TESTS[testKey];
+  const qs = [], meta = [];
+  test.passages.forEach((p, pi) => {
+    p.questions.forEach((q, qi) => {
+      qs.push(q);
+      meta.push({ passage: p, pi, qi, isFirst: qi === 0 });
+    });
+  });
+  return { qs, meta };
+}
+
+// ==========================================
+// HOME
+// ==========================================
+function goHome() {
+  clearInterval(S.timerInt);
+  showScreen('home');
+  loadStats();
+  loadPattern();
+}
+
+function filterCards(cat) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.test-card').forEach(c => {
+    if (cat === 'all') c.style.display = '';
+    else c.style.display = c.dataset.cat === cat ? '' : 'none';
+  });
+}
+
+function loadStats() {
+  const raw = JSON.parse(localStorage.getItem('toefl_stats') || '{"total":0,"correct":0,"streak":0}');
+  document.getElementById('stat-total').textContent = raw.total;
+  document.getElementById('stat-correct').textContent = raw.total > 0 ? Math.round(raw.correct / raw.total * 100) + '%' : '0%';
+  document.getElementById('stat-streak').textContent = raw.streak;
+}
+
+function saveStats(correct, total) {
+  const raw = JSON.parse(localStorage.getItem('toefl_stats') || '{"total":0,"correct":0,"streak":0}');
+  raw.total += total;
+  raw.correct += correct;
+  if (correct === total) raw.streak++;
+  else raw.streak = 0;
+  localStorage.setItem('toefl_stats', JSON.stringify(raw));
+}
+
+function loadPattern() {
+  const raw = JSON.parse(localStorage.getItem('toefl_type_stats') || '{}');
+  const entries = Object.entries(raw).filter(([,v]) => v.total >= 3);
+  if (!entries.length) return;
+  const banner = document.getElementById('pattern-banner');
+  const list = document.getElementById('pattern-list');
+  banner.classList.add('show');
+  list.innerHTML = entries.sort((a,b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total)).slice(0,6).map(([type, v]) => {
+    const pct = Math.round(v.correct / v.total * 100);
+    return `<div class="pattern-chip ${pct >= 70 ? 'ok' : ''}">${type} ${pct}%</div>`;
+  }).join('');
+}
+
+function saveTypeStats(q, isCorrect) {
+  const raw = JSON.parse(localStorage.getItem('toefl_type_stats') || '{}');
+  if (!raw[q.type]) raw[q.type] = { total: 0, correct: 0 };
+  raw[q.type].total++;
+  if (isCorrect) raw[q.type].correct++;
+  localStorage.setItem('toefl_type_stats', JSON.stringify(raw));
+}
+
+// ==========================================
+// STRATEGY
+// ==========================================
+function goStrategy(key) {
+  const s = STRATEGIES[key];
+  if (!s) return;
+  document.getElementById('strat-header-title').textContent = s.title;
+
+  let html = `
+    <div class="strat-hero">
+      <div class="strat-hero-tag">Task 전략 가이드</div>
+      <div class="strat-hero-title">${s.title}</div>
+      <div class="strat-hero-desc">${s.desc}</div>
+    </div>
+  `;
+
+  s.sections.forEach(sec => {
+    html += `<div class="strat-section">
+      <div class="strat-section-title">${sec.icon} ${sec.title}</div>
+      ${sec.points.map((p, i) => `
+        <div class="strat-point">
+          <div class="strat-num">${i+1}</div>
+          <div class="strat-text">${p.text}</div>
+        </div>
+      `).join('')}
+      ${sec.trap ? `<div class="trap-box"><div class="trap-title">⚠️ ${sec.trap.title}</div>${sec.trap.items.map(t => `<div class="trap-item">• ${t}</div>`).join('')}</div>` : ''}
+      ${sec.tip ? `<div class="tip-box"><div class="tip-text">💡 ${sec.tip}</div></div>` : ''}
+    </div>`;
+  });
+
+  html += `<div style="margin-top:24px;display:flex;gap:12px;">
+    <button class="btn btn-primary" style="flex:1" onclick="startTest('${s.practiceKey}')">연습 문제 풀기 →</button>
+    <button class="btn btn-ghost" onclick="goHome()">홈으로</button>
+  </div>`;
+
+  document.getElementById('strat-body').innerHTML = html;
+  showScreen('strategy');
+}
+
+// ==========================================
+// START TEST
+// ==========================================
+function startTest(key, wrongIndicesOverride) {
+  const test = TESTS[key];
+  if (!test) { alert('준비 중입니다'); return; }
+
+  const { qs, meta } = flatten(key);
+
+  if (wrongIndicesOverride) {
+    S.isRetryWrong = true;
+    S.wrongIndices = wrongIndicesOverride;
+    S.allQs = wrongIndicesOverride.map(i => qs[i]);
+    S.qMeta = wrongIndicesOverride.map(i => meta[i]);
+  } else {
+    S.isRetryWrong = false;
+    S.wrongIndices = [];
+    S.allQs = qs;
+    S.qMeta = meta;
+  }
+
+  S.testKey = key;
+  S.currentQ = 0;
+  S.answers = new Array(S.allQs.length).fill(null);
+  S.revealed = new Array(S.allQs.length).fill(false);
+  S.selected = null;
+  S.timeLeft = wrongIndicesOverride ? Math.max(60, S.allQs.length * 40) : test.timeLimit;
+
+  document.getElementById('test-title-label').textContent = wrongIndicesOverride ? '틀린 문제 복습' : test.title;
+  showScreen('test');
+  startTimer();
+  renderQ();
+}
+
+function retryWrong() {
+  const { qs } = flatten(S.testKey);
+  const wrongs = S.answers.map((a, i) => a !== S.allQs[i].answer ? i : -1).filter(i => i >= 0);
+  if (!wrongs.length) { alert('틀린 문제가 없습니다! 🎉'); return; }
+  startTest(S.testKey, wrongs);
+}
+
+function confirmBack() {
+  if (confirm('테스트를 종료하고 홈으로 돌아갈까요?')) goHome();
+}
+
+// ==========================================
+// TIMER
+// ==========================================
+function startTimer() {
+  clearInterval(S.timerInt);
+  updateTimer();
+  S.timerInt = setInterval(() => {
+    S.timeLeft--;
+    updateTimer();
+    if (S.timeLeft <= 0) { clearInterval(S.timerInt); showResult(); }
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = String(Math.floor(S.timeLeft/60)).padStart(2,'0');
+  const s = String(S.timeLeft%60).padStart(2,'0');
+  const el = document.getElementById('timer');
+  el.textContent = `${m}:${s}`;
+  el.className = 'timer';
+  if (S.timeLeft <= 60) el.classList.add('danger');
+  else if (S.timeLeft <= 120) el.classList.add('warn');
+}
+
+// ==========================================
+// RENDER QUESTION
+// ==========================================
+function renderQ() {
+  resetRecording();
+  const total = S.allQs.length;
+  const idx = S.currentQ;
+  const q = S.allQs[idx];
+  const meta = S.qMeta[idx];
+  const p = meta.passage;
+  const answered = S.answers[idx] !== null;
+
+  document.getElementById('progress-fill').style.width = `${(idx/total)*100}%`;
+  document.getElementById('progress-label').textContent = `${idx+1} / ${total}`;
+
+  const letters = ['A','B','C','D'];
+  const isTask1 = p.type === 'task1';
+
+  let passageHtml = '';
+  if (meta.isFirst) {
+    if (isTask1) {
+      passageHtml = `
+        <div class="passage-card">
+          <div class="passage-header">
+            <div class="passage-icon">💬</div>
+            <div>
+              <div class="passage-type">Task 1 · Listen & Choose a Response</div>
+              <div class="passage-title-text">${p.label}</div>
+            </div>
+          </div>
+        </div>`;
+    } else {
+      const icons = { conversation:'💬', lecture:'🎓', announcement:'📢' };
+      // 음원 연결: 패시지 오디오 로드
+      const audioKey = p.audioKey; // 패시지에 audioKey 설정된 경우
+      let audioHtml = '';
+      if (audioKey) {
+        const ts = p.audioTs; // [start, end]
+        audioHtml = buildAudioPlayer();
+        // 렌더 후 오디오 로드 (setTimeout으로 DOM 생성 후)
+        setTimeout(() => {
+          loadAudio(AUDIO_IDS[audioKey], ts[0], ts[1], p.label);
+        }, 50);
+      }
+      passageHtml = `
+        <div class="passage-card">
+          <div class="passage-header">
+            <div class="passage-icon">${icons[p.type]||'🔊'}</div>
+            <div>
+              <div class="passage-type">${p.type.toUpperCase()}</div>
+              <div class="passage-title-text">${p.label}</div>
+              <div class="passage-ctx">${p.context}</div>
+            </div>
+          </div>
+          <div class="passage-body">
+            ${audioHtml}
+            <button class="audio-ctrl-btn" style="margin-bottom:10px" onclick="toggleScript(this)">📄 스크립트 보기</button>
+            <div class="script-text" style="display:none">${p.script.replace(/\n/g,'<br>')}</div>
+          </div>
+        </div>`;
+    }
+  }
+
+  let questionContent = '';
+
+  const isRevealed = S.revealed[idx] || answered;
+
+  questionContent = '';
+  if (isTask1) {
+    // Task1 음원: 문제별 audioKey 오버라이드 또는 패시지 audioKey
+    const t1AudioKey = q.audioKey || p.audioKey;
+    const t1Ts = q.audioTs;
+
+    let audioHtml = '';
+    if (t1AudioKey && t1Ts && AUDIO_IDS[t1AudioKey]) {
+      audioHtml = buildAudioPlayer();
+      setTimeout(() => {
+        loadAudio(AUDIO_IDS[t1AudioKey], t1Ts[0], t1Ts[1], `Q${idx+1} 음원`);
+      }, 50);
+    }
+
+    questionContent = `
+      <div class="utterance-box">
+        <div class="utterance-icon">🎧</div>
+        <div class="utterance-label">먼저 음원을 듣고 응답을 고르세요</div>
+        <div class="utterance-note">${t1AudioKey ? '음원을 충분히 들은 뒤 아래에서 문제를 확인하세요' : '실제 시험에서는 음원으로만 제공됩니다'}</div>
+      </div>
+      ${audioHtml}`;
+  }
+
+  // 비Task1 문제는 패시지 플레이어 하나만 사용
+  let qAudioHtml = '';
+
+  // 문제 스템 & 선택지 (가리기 적용)
+  let stemHtml = '';
+  let choicesHtml = '';
+  let revealBtnHtml = '';
+
+  if (isRevealed) {
+    stemHtml = `
+      <div class="q-type">${q.type}</div>
+      <div class="q-stem">Q${idx+1}. ${q.stem}</div>`;
+    choicesHtml = '<div class="choices">' + q.choices.map((c, ci) => {
+      let cls = '';
+      if (answered) {
+        cls = 'disabled';
+        if (ci === q.answer) cls += ' correct';
+        else if (ci === S.answers[idx]) cls += ' wrong';
+      } else if (ci === S.selected) cls = 'selected';
+      return `<button class="choice ${cls}" onclick="selectChoice(${ci})" ${answered?'disabled':''}>
+        <span class="choice-letter">${letters[ci]}</span>
+        <span class="choice-text">${c}</span>
+      </button>`;
+    }).join('') + '</div>';
+  } else {
+    // 가려진 상태
+    stemHtml = `<div class="q-hidden-notice">
+      <div class="q-hidden-icon">👂</div>
+      <div class="q-hidden-title">음원에 집중하세요</div>
+      <div class="q-hidden-desc">실제 시험처럼 먼저 소리로만 이해한 뒤,<br>준비가 되면 문제를 확인하세요.</div>
+    </div>`;
+    revealBtnHtml = `<button class="btn btn-primary btn-reveal" onclick="revealQuestion()">문제 풀기 →</button>`;
+  }
+
+  let feedbackHtml = '';
+  if (answered) {
+    const ok = S.answers[idx] === q.answer;
+    feedbackHtml = `<div class="feedback show ${ok?'correct':'wrong'}">
+      <div class="feedback-head">${ok?'✅ 정답입니다!':'❌ 오답입니다'}</div>
+      <div class="feedback-body">${!ok?`<strong>정답: ${letters[q.answer]}. ${q.choices[q.answer]}</strong><br><br>`:''}💡 ${q.explanation}</div>
+    </div>`;
+  }
+
+  const isLast = idx === total - 1;
+  let navHtml = '';
+  if (!isRevealed) {
+    // 가려진 상태: 문제 풀기 버튼만
+    navHtml = `<div class="btn-row">
+      ${idx > 0 ? '<button class="btn btn-ghost" onclick="prevQ()">← 이전</button>' : ''}
+      ${revealBtnHtml}
+    </div>`;
+  } else {
+    navHtml = `<div class="btn-row">
+      ${idx > 0 ? '<button class="btn btn-ghost" onclick="prevQ()">← 이전</button>' : ''}
+      ${!answered
+        ? `<button class="btn btn-primary" id="sub-btn" onclick="submitAnswer()" ${S.selected===null?'disabled':''}>정답 확인</button>`
+        : isLast
+          ? `<button class="btn btn-primary" onclick="showResult()">결과 보기 →</button>`
+          : `<button class="btn btn-primary" onclick="nextQ()">다음 →</button>`
+      }
+    </div>`;
+  }
+
+  document.getElementById('q-wrap').innerHTML = `
+    ${passageHtml}
+    ${meta.isFirst && !isTask1 ? '<div class="divider"><div class="divider-line"></div><div class="divider-label">Listening</div><div class="divider-line"></div></div>' : ''}
+    <div class="q-tag">${p.label}</div>
+    ${questionContent}
+    ${qAudioHtml}
+    ${stemHtml}
+    ${choicesHtml}
+    ${feedbackHtml}
+    ${navHtml}
+  `;
+  window.scrollTo(0,0);
+}
+
+function revealQuestion() {
+  S.revealed[S.currentQ] = true;
+  renderQ();
+}
+
+// ==========================================
+// INTERACTION
+// ==========================================
+function selectChoice(ci) {
+  if (S.answers[S.currentQ] !== null) return;
+  S.selected = ci;
+  document.querySelectorAll('.choice').forEach((el,i) => {
+    el.classList.toggle('selected', i===ci);
+  });
+  const btn = document.getElementById('sub-btn');
+  if (btn) btn.disabled = false;
+}
+
+function submitAnswer() {
+  if (S.selected === null) return;
+  S.answers[S.currentQ] = S.selected;
+  const q = S.allQs[S.currentQ];
+  saveTypeStats(q, S.selected === q.answer);
+  renderQ();
+}
+
+function nextQ() {
+  if (S.currentQ < S.allQs.length - 1) { S.currentQ++; S.selected = S.answers[S.currentQ]; renderQ(); }
+}
+function prevQ() {
+  if (S.currentQ > 0) { S.currentQ--; S.selected = S.answers[S.currentQ]; renderQ(); }
+}
+
+// ==========================================
+// RESULT
+// ==========================================
+function showResult() {
+  clearInterval(S.timerInt);
+  const total = S.allQs.length;
+  const correct = S.answers.filter((a,i) => a === S.allQs[i].answer).length;
+  const pct = Math.round(correct/total*100);
+
+  saveStats(correct, total);
+
+  const circ = 2*Math.PI*60;
+  const offset = circ - (pct/100)*circ;
+
+  let title, sub;
+  if (pct >= 80) { title='훌륭해요! 🎉'; sub='리스닝 실력이 매우 우수합니다.'; }
+  else if (pct >= 60) { title='잘 하셨어요! 👍'; sub='꾸준한 연습으로 더 높은 점수를 노려보세요.'; }
+  else { title='복습이 필요해요 📚'; sub='스크립트를 다시 읽고 틀린 문제를 복습해보세요.'; }
+
+  document.getElementById('ring-num').textContent = correct;
+  document.getElementById('ring-denom').textContent = `/${total}`;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-sub').textContent = `${TESTS[S.testKey].title} · ${correct}/${total} 정답 (${pct}%)`;
+
+  // 유형별 분석
+  const typeMap = {};
+  S.allQs.forEach((q,i) => {
+    if (!typeMap[q.type]) typeMap[q.type] = {t:0,c:0};
+    typeMap[q.type].t++;
+    if (S.answers[i]===q.answer) typeMap[q.type].c++;
+  });
+
+  const breakdownRows = Object.entries(typeMap).map(([type,{t,c}]) => {
+    const p2 = Math.round(c/t*100);
+    const cls = p2>=80?'high':p2>=50?'mid':'low';
+    const barW = p2;
+    return `<div class="breakdown-row">
+      <span class="breakdown-type">${type}</span>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill" style="width:${barW}%"></div></div>
+        <span class="bscore ${cls}">${c}/${t}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('breakdown-card').innerHTML = `
+    <div class="result-card-header">📊 유형별 분석</div>${breakdownRows}`;
+
+  // 문제별 리뷰
+  const letters = ['A','B','C','D'];
+  const reviewRows = S.allQs.map((q,i) => {
+    const ok = S.answers[i]===q.answer;
+    const ua = S.answers[i];
+    return `<div class="review-item">
+      <div class="review-qnum">Q${i+1}</div>
+      <div class="review-content">
+        <div class="review-q">${q.stem}</div>
+        <div class="review-answers">
+          ${ua!==null?`<span class="ans-tag ${ok?'ans-correct':'ans-wrong'}">내 답: ${letters[ua]}</span>`:'<span class="ans-tag ans-wrong">미응답</span>'}
+          ${!ok?`<span class="ans-tag ans-correct">정답: ${letters[q.answer]}</span>`:''}
+        </div>
+      </div>
+      <div class="review-icon ${ok?'icon-ok':'icon-ng'}">${ok?'✓':'✗'}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('review-card').innerHTML = `
+    <div class="result-card-header">📝 문제별 검토</div>${reviewRows}`;
+
+  // 틀린 문제 있으면 버튼 표시
+  const wrongs = S.answers.filter((a,i) => a !== S.allQs[i].answer).length;
+  document.getElementById('retry-wrong-btn').style.display = wrongs > 0 ? '' : 'none';
+  document.getElementById('retry-btn').onclick = () => startTest(S.testKey);
+
+  showScreen('result');
+  setTimeout(() => {
+    document.getElementById('ring-fg').style.strokeDasharray = circ;
+    document.getElementById('ring-fg').style.strokeDashoffset = offset;
+  }, 100);
+}
+
+// ==========================================
+// NAV
+// ==========================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// 초기 로드
+loadStats();
+loadPattern();
+</script>
+</body>
+</html>
